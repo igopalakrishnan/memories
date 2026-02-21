@@ -5,32 +5,32 @@ export const birthday = [
     dob: "22 Jan 2222",
     image: "/gallery/profiles/abinash.jpg",
     color: "RGB(126,196,183)",
-    path: "/abinash"
+    path: "/memories/abinash"
   },
   {
     name: "Abishek",
     image: "/gallery/profiles/abishek.jpg",
     color: "RGB(114,107,100)",
-    path: "/abishek"
+    path: "/memories/abishek"
   },
   {
     name: "AjithKumar",
     image: "/gallery/profiles/ajith.jpg",
     color: "RGB(222,218,207)",
-    path: "/ajith"
+    path: "/memories/ajith"
   },
   {
     name: "Gokul",
     dob: "12 Dec 1995",
     image: "/gallery/profiles/gokul.jpg",
     color: "RGB(58,28,28)",
-    path: "/gokul"
+    path: "/memories/gokul"
   },
   {
     name: "Jaynath",
     image: "/gallery/profiles/jaynath.jpg",
     color: "RGB(222,61,98)",
-    path: "/jaynath"
+    path: "/memories/jaynath"
   }
 ];
 

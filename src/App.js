@@ -10,9 +10,9 @@ function App() {
     <Router>
       <AppNavbar />
       <Routes>
-         <Route path="/home" element={<Home />} />
-        <Route path="/gokul" element={<Gokul />} />
-        <Route path="/vinoth" element={<Vinoth />} />
+         <Route path="/memories/home" element={<Home />} />
+        <Route path="/memories/gokul" element={<Gokul />} />
+        <Route path="/memories/vinoth" element={<Vinoth />} />
       </Routes>
     </Router>
   );
