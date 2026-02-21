@@ -13,7 +13,7 @@ const AppNavbar = () => {
   return (
     <Navbar bg="dark" variant="dark" expand={false}>
       <Container fluid>
-        <Navbar.Brand href="/">
+        <Navbar.Brand href="/home">
           <i className="bi bi-house-door-fill"></i> HOME
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="offcanvasNavbar" onClick={handleShow} />
