@@ -24,7 +24,7 @@ export const birthday = [
     dob: "12 Dec 1995",
     image: "/gallery/profiles/gokul.jpg",
     color: "RGB(58,28,28)",
-    path: "/gokul"
+    path: "/memories/gokul"
   },
   {
     name: "Jaynath",
