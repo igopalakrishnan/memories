@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./components/home/home";
 import AppNavbar from "./components/navbar/navbar";
 import Gokul from "./components/pages/gokul";
@@ -9,7 +9,7 @@ function App() {
     <Router>
       <AppNavbar />
       <Routes>
-         <Route path="/memories" element={<Home />} />
+         <Route path="/" element={<Home />} />
          <Route path="/memories/gokul" element={<Gokul />} />
       </Routes>
     </Router>

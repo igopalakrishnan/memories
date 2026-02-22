@@ -7,7 +7,11 @@ const Home = () => {
   const renderProfileCards = (profiles) =>
     profiles.map((p, index) => (
       <div key={index} className="homeprofile-card">
-        <img src={p.image} alt={p.name} className="homeprofile-img" />
+        <img
+          src={`/gallery/profiles/${p.image || "placeholder.png"}`}
+          alt={p.name}
+          className="homeprofile-img"
+        />
         <div className="homeprofile-info">
           <span className="homeprofile-name">{p.name}</span>
           <span className="homeprofile-dob">{p.dob}</span>
