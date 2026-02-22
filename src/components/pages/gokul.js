@@ -7,12 +7,12 @@ const basePath =
 const Gokul = () => {
   const images2024 = Array.from(
     { length: 4 },
-    (_, i) => `${basePath}2024/img${i + 1}.jpg`,
+    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
   );
 
   const images2025 = Array.from(
     { length: 6 },
-    (_, i) => `${basePath}2025/img${i + 1}.jpg`,
+    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
   );
 
   const [currentIndex, setCurrentIndex] = useState(null);
