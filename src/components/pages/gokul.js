@@ -11,7 +11,7 @@ const Gokul = () => {
   );
 
   const images2025 = Array.from(
-    { length: 6 },
+    { length: 14 },
     (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
   );
 
@@ -43,7 +43,7 @@ const Gokul = () => {
 
   return (
     <div>
-      <h3 className="my-3">31 October 2024</h3>
+      <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
       <div style={styles.gallery}>
         {images2024.map((src, index) => (
           <img
@@ -60,7 +60,7 @@ const Gokul = () => {
         ))}
       </div>
 
-      <h3 className="my-3">31 October 2025</h3>
+      <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
       <div style={styles.gallery}>
         {images2025.map((src, index) => (
           <img
@@ -72,6 +72,15 @@ const Gokul = () => {
             onClick={() => {
               setCurrentIndex(index);
               setActiveList(images2025);
+            }}
+            // 👇 First fallback: try .jpeg if .jpg fails
+            onError={(e) => {
+              if (e.target.src.endsWith(".jpg")) {
+                e.target.src = src.replace(".jpg", ".jpeg");
+              } else {
+                // 👇 Second fallback: placeholder if both fail
+                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+              }
             }}
           />
         ))}
