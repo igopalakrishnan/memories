@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 
+// ✅ Base path logic
+const basePath =
+  process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
+
 const Gokul = () => {
   const images2024 = Array.from(
     { length: 4 },
-    (_, i) => `/gallery/2024/img${i + 1}.jpg`,
+    (_, i) => `${basePath}2024/img${i + 1}.jpg`,
   );
 
   const images2025 = Array.from(
     { length: 6 },
-    (_, i) => `/gallery/2025/img${i + 1}.jpg`,
+    (_, i) => `${basePath}2025/img${i + 1}.jpg`,
   );
 
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [activeList, setActiveList] = useState(null); // track which list is open
+  const [activeList, setActiveList] = useState(null);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : activeList.length - 1));
@@ -22,7 +26,6 @@ const Gokul = () => {
     setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
   };
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (currentIndex !== null) {
@@ -74,7 +77,6 @@ const Gokul = () => {
         ))}
       </div>
 
-      {/* Modal */}
       {currentIndex !== null && (
         <div style={styles.modal}>
           <button
@@ -130,11 +132,7 @@ const styles = {
     alignItems: "center",
     gap: "20px",
   },
-  modalImage: {
-    maxWidth: "70%",
-    maxHeight: "80%",
-    borderRadius: "8px",
-  },
+  modalImage: { maxWidth: "70%", maxHeight: "80%", borderRadius: "8px" },
   closeBtn: {
     position: "absolute",
     top: "20px",
