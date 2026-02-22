@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { birthday, other } from "./profiles";
+import { birthday, other, basePath } from "./profiles";
 import "./home.css";
 
 const Home = () => {
@@ -8,7 +8,7 @@ const Home = () => {
     profiles.map((p, index) => (
       <div key={index} className="homeprofile-card">
         <img
-          src={`/gallery/profiles/${p.image || "placeholder.png"}`}
+          src={`${basePath}${p.image || "placeholder.png"}`}
           alt={p.name}
           className="homeprofile-img"
         />
