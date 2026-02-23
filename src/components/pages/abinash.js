@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Vinoth = () => {
+const Abinash = () => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -49,14 +49,10 @@ const Vinoth = () => {
   };
 
   const images2024 = Array.from(
-    { length: 44 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
+    { length: 4 },
+    (_, i) => `${basePath}abinash/img${i + 1}.jpg`,
   );
 
-  const images2025 = Array.from(
-    { length: 14 },
-    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
-  );
 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
@@ -96,7 +92,7 @@ const Vinoth = () => {
 
   return (
     <div>
-      <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
+      <h3 className="ms-3 mt-4 mb-3">15 December 2025</h3>
       <div style={styles.gallery}>
         {images2024.map((src, index) => (
           <img
@@ -122,31 +118,6 @@ const Vinoth = () => {
         ))}
       </div>
 
-      <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
-      <div style={styles.gallery}>
-        {images2025.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`2025 Gallery ${index}`}
-            style={styles.image}
-            loading="lazy"
-            onClick={() => {
-              setCurrentIndex(index);
-              setActiveList(images2025);
-            }}
-            // 👇 First fallback: try .jpeg if .jpg fails
-            onError={(e) => {
-              if (e.target.src.endsWith(".jpg")) {
-                e.target.src = src.replace(".jpg", ".jpeg");
-              } else {
-                // 👇 Second fallback: placeholder if both fail
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
-              }
-            }}
-          />
-        ))}
-      </div>
 
       {/* Floating audio button */}
       <button
@@ -167,7 +138,7 @@ const Vinoth = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/vinoth.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/abinash.mp3`}
         // loop
       />
 
@@ -297,4 +268,4 @@ const styles = {
   },
 };
 
-export default Vinoth;
+export default Abinash;

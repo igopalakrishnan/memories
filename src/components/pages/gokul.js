@@ -1,10 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // ✅ Base path logic
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
 const Gokul = () => {
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [activeList, setActiveList] = useState(null);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [isPressed, setIsPressed] = useState(false);
+
+  // Auto-play when page loads
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          console.log("Autoplay blocked, user must click play");
+        });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsPlaying(false);
+      });
+    }
+    return () => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, []);
+  const toggleAudio = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      audio.play().catch(() => {
+        console.log("Autoplay blocked, user must click play");
+      });
+      setIsPlaying(true);
+    }
+  };
+
   const images2024 = Array.from(
     { length: 4 },
     (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
@@ -14,10 +57,6 @@ const Gokul = () => {
     { length: 14 },
     (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
   );
-
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [activeList, setActiveList] = useState(null);
-  const [touchStartX, setTouchStartX] = useState(null);
 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
@@ -108,6 +147,29 @@ const Gokul = () => {
           />
         ))}
       </div>
+
+      {/* Floating audio button */}
+      <button
+        style={{
+          ...styles.audioBtn,
+          ...(isPressed ? styles.audioBtnActive : {}),
+        }}
+        onMouseDown={() => setIsPressed(true)}
+        onMouseUp={() => setIsPressed(false)}
+        onMouseLeave={() => setIsPressed(false)}
+        onTouchStart={() => setIsPressed(true)}
+        onTouchEnd={() => setIsPressed(false)}
+        onClick={toggleAudio}
+      >
+        {isPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+      </button>
+
+      {/* Hidden audio element */}
+      <audio
+        ref={audioRef}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/gokul.mp3`}
+        // loop
+      />
 
       {currentIndex !== null && (
         <div
@@ -211,6 +273,27 @@ const styles = {
     color: "white",
     fontSize: "18px",
     cursor: "pointer",
+  },
+  audioBtn: {
+    position: "fixed",
+    bottom: "5px",
+    right: "20px",
+    backgroundColor: "#ff4081",
+    color: "white",
+    border: "none",
+    borderRadius: "30px",
+    padding: "10px 16px",
+    fontSize: "14px",
+    cursor: "pointer",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
+    zIndex: 4000,
+    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+  },
+  audioBtnActive: {
+    transform: "scale(0.9)",
+    // quick shrink
+    boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
+    // glowing pink
   },
 };
 

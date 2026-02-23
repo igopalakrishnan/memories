@@ -4,8 +4,9 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Vinoth = () => {
+const Nithya = () => {
   const audioRef = useRef(null);
+  const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [activeList, setActiveList] = useState(null);
@@ -48,13 +49,27 @@ const Vinoth = () => {
     }
   };
 
+//   const toggleVideo = () => {
+//     const video = videoRef.current;
+//     if (!video) return;
+//     if (isPlaying) {
+//       video.pause();
+//       setIsPlaying(false);
+//     } else {
+//       video.play().catch(() => {
+//         console.log("Autoplay blocked, user must click play");
+//       });
+//       setIsPlaying(true);
+//     }
+//   };
+
   const images2024 = Array.from(
-    { length: 44 },
+    { length: 4 },
     (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
   );
 
   const images2025 = Array.from(
-    { length: 14 },
+    { length: 214 },
     (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
   );
 
@@ -96,6 +111,20 @@ const Vinoth = () => {
 
   return (
     <div>
+      {/* ✅ Video player (muted, no native controls) */}
+      {/* <div style={styles.videoContainer}>
+        <video
+          ref={videoRef}
+          src={`${process.env.PUBLIC_URL}/gallery/video/nithya.mp4`}
+          style={styles.video}
+          autoPlay
+          muted
+        />
+        <button style={styles.videoBtn} onClick={toggleVideo}>
+          {isPlaying ? "⏸ Pause Video" : "▶ Play Video"}
+        </button>
+      </div> */}
+
       <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
       <div style={styles.gallery}>
         {images2024.map((src, index) => (
@@ -167,7 +196,7 @@ const Vinoth = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/vinoth.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/nithya.mp3`}
         // loop
       />
 
@@ -295,6 +324,33 @@ const styles = {
     boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
     // glowing pink
   },
+  videoContainer: {
+    position: "relative",
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "20px",
+    marginTop: "20px",
+  },
+  video: {
+    width: "80%",
+    maxWidth: "600px",
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+  },
+  videoBtn: {
+    position: "absolute",
+    bottom: "5px",
+    center: "20px",
+    backgroundColor: "#ff4081",
+    color: "white",
+    border: "none",
+    borderRadius: "30px",
+    padding: "10px 16px",
+    fontSize: "14px",
+    cursor: "pointer",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
+    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+  },
 };
 
-export default Vinoth;
+export default Nithya;

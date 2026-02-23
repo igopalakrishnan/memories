@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Vinoth = () => {
+const Thiruvannamalai = () => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -49,7 +49,7 @@ const Vinoth = () => {
   };
 
   const images2024 = Array.from(
-    { length: 44 },
+    { length: 4 },
     (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
   );
 
@@ -167,7 +167,7 @@ const Vinoth = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/vinoth.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/thiruvannamalai.mp3`}
         // loop
       />
 
@@ -297,4 +297,4 @@ const styles = {
   },
 };
 
-export default Vinoth;
+export default Thiruvannamalai;

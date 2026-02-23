@@ -57,7 +57,7 @@ export const birthday = [
   {
     name: "Kaviya",
     dob: "03 Jan 2002",
-    image: "kaviya.jpg",
+    image: "female.jpg",
     color: "rgb(251, 228, 226)",
     path: "/kaviya",
   },
@@ -158,9 +158,9 @@ export const other = [
   {
     name: "Pothys",
     dob: "Always",
-    image: "gokul.jpg",
+    image: "pothys.jpg",
     color: "rgb(112,163,130)",
-    path: "/gokul",
+    path: "/pothys",
   },
   {
     name: "Thiru_malai",
