@@ -10,7 +10,7 @@ function App() {
       <AppNavbar />
       <Routes>
          <Route path="/" element={<Home />} />
-         <Route path="/memories/gokul" element={<Gokul />} />
+         <Route path="/gokul" element={<Gokul />} />
       </Routes>
     </Router>
   );

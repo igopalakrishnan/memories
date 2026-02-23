@@ -17,6 +17,20 @@ const Gokul = () => {
 
   const [currentIndex, setCurrentIndex] = useState(null);
   const [activeList, setActiveList] = useState(null);
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  const handleSwipe = (endX) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - endX;
+    if (diff > 50) {
+      // swipe left → next image
+      handleNext();
+    } else if (diff < -50) {
+      // swipe right → previous image
+      handlePrev();
+    }
+    setTouchStartX(null);
+  };
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : activeList.length - 1));
@@ -56,6 +70,15 @@ const Gokul = () => {
               setCurrentIndex(index);
               setActiveList(images2024);
             }}
+            // 👇 First fallback: try .jpeg if .jpg fails
+            onError={(e) => {
+              if (e.target.src.endsWith(".jpg")) {
+                e.target.src = src.replace(".jpg", ".jpeg");
+              } else {
+                // 👇 Second fallback: placeholder if both fail
+                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+              }
+            }}
           />
         ))}
       </div>
@@ -87,7 +110,18 @@ const Gokul = () => {
       </div>
 
       {currentIndex !== null && (
-        <div style={styles.modal}>
+        <div
+          style={styles.modal}
+          onClick={(e) => {
+            // Close only if user clicks on the overlay itself
+            if (e.target === e.currentTarget) {
+              setCurrentIndex(null);
+              setActiveList(null);
+            }
+          }}
+          onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
+          onTouchEnd={(e) => handleSwipe(e.changedTouches[0].clientX)}
+        >
           <button
             style={styles.closeBtn}
             onClick={() => {
@@ -104,7 +138,18 @@ const Gokul = () => {
             src={activeList[currentIndex]}
             alt="Enlarged"
             style={styles.modalImage}
+            onError={(e) => {
+              if (e.target.src.endsWith(".jpg")) {
+                e.target.src = activeList[currentIndex].replace(
+                  ".jpg",
+                  ".jpeg",
+                );
+              } else {
+                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+              }
+            }}
           />
+
           <button style={styles.nextBtn} onClick={handleNext}>
             ▶
           </button>
@@ -140,6 +185,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     gap: "20px",
+    zIndex: 3000,
   },
   modalImage: { maxWidth: "70%", maxHeight: "80%", borderRadius: "8px" },
   closeBtn: {

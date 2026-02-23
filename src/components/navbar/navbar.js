@@ -11,7 +11,7 @@ const AppNavbar = () => {
   const handleShow = () => setShow(true);
 
   return (
-    <Navbar bg="dark" variant="dark" expand={false}>
+    <Navbar className="navbar" bg="dark" variant="dark" expand={false}>
       <Container fluid>
         <Navbar.Brand href="/memories">
           <i className="bi bi-house-door-fill"></i> HOME
