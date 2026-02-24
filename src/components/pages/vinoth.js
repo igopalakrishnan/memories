@@ -120,7 +120,7 @@ const Vinoth = () => {
       <div style={styles.videoContainer}>
         <video
           ref={videoRef}
-          src={`${process.env.PUBLIC_URL}/gallery/video/vinoth.mp4`}
+          src={`${process.env.PUBLIC_URL}/gallery/video/vinoth2024.mp4`}
           style={styles.video}
           autoPlay
           muted
