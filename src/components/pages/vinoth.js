@@ -6,26 +6,25 @@ const basePath =
 
 const Vinoth = () => {
   const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
+  // Separate states
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
   const [currentIndex, setCurrentIndex] = useState(null);
   const [activeList, setActiveList] = useState(null);
   const [touchStartX, setTouchStartX] = useState(null);
   const [isPressed, setIsPressed] = useState(false);
 
-  // Auto-play when page loads
+  // Auto-play audio when page loads
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
       audio
         .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          console.log("Autoplay blocked, user must click play");
-        });
-      // When audio finishes, reset button to Play
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-      });
+        .then(() => setIsAudioPlaying(true))
+        .catch(() => console.log("Autoplay blocked, user must click play"));
+      audio.addEventListener("ended", () => setIsAudioPlaying(false));
     }
     return () => {
       if (audio) {
@@ -34,27 +33,42 @@ const Vinoth = () => {
       }
     };
   }, []);
+
+  // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (isPlaying) {
+    if (isAudioPlaying) {
       audio.pause();
-      setIsPlaying(false);
+      setIsAudioPlaying(false);
     } else {
       audio.play().catch(() => {
         console.log("Autoplay blocked, user must click play");
       });
-      setIsPlaying(true);
+      setIsAudioPlaying(true);
     }
   };
 
+  // Toggle video
+  const playVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.play().then(() => setIsVideoPlaying(true));
+  };
+  const pauseVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.pause();
+    setIsVideoPlaying(false);
+  };
+
   const images2024 = Array.from(
-    { length: 44 },
+    { length: 59 },
     (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
   );
 
   const images2025 = Array.from(
-    { length: 14 },
+    { length: 63 },
     (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
   );
 
@@ -94,9 +108,33 @@ const Vinoth = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
+  // 👇 New effect for scrolling to top
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div>
-      <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
+      <h3 className="ms-3 mt-4 mb-3">02 May 2024</h3>
+      {/* ✅ Video player */}
+      <div style={styles.videoContainer}>
+        <video
+          ref={videoRef}
+          src={`${process.env.PUBLIC_URL}/gallery/video/vinoth.mp4`}
+          style={styles.video}
+          autoPlay
+          muted
+        />
+        <div style={{ marginTop: "10px" }}>
+          <button style={styles.videoBtn} onClick={playVideo}>
+            ▶ Play Video
+          </button>
+          <button style={styles.videoBtn} onClick={pauseVideo}>
+            ⏸ Pause Video
+          </button>
+        </div>
+      </div>
+
       <div style={styles.gallery}>
         {images2024.map((src, index) => (
           <img
@@ -122,7 +160,7 @@ const Vinoth = () => {
         ))}
       </div>
 
-      <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
+      <h3 className="ms-3 mt-4 mb-3">02 May 2025</h3>
       <div style={styles.gallery}>
         {images2025.map((src, index) => (
           <img
@@ -161,7 +199,7 @@ const Vinoth = () => {
         onTouchEnd={() => setIsPressed(false)}
         onClick={toggleAudio}
       >
-        {isPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
       </button>
 
       {/* Hidden audio element */}
@@ -294,6 +332,17 @@ const styles = {
     // quick shrink
     boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
     // glowing pink
+  },
+  videoContainer: { textAlign: "center" },
+  video: { width: "80%", borderRadius: "8px" },
+  videoBtn: {
+    margin: "0 5px",
+    padding: "8px 12px",
+    borderRadius: "6px",
+    border: "none",
+    cursor: "pointer",
+    backgroundColor: "#ff4081",
+    color: "white",
   },
 };
 

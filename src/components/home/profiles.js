@@ -42,7 +42,7 @@ export const birthday = [
   },
   {
     name: "Kalai",
-    dob: "07 Oct 200",
+    dob: "07 Oct 2004",
     image: "kalai.jpg",
     color: "rgb(201,219,129)",
     path: "/kalai",
@@ -63,7 +63,7 @@ export const birthday = [
   },
   {
     name: "Kishore",
-    dob: "12 Nov 200",
+    dob: "12 Nov 2003",
     image: "kishore.jpg",
     color: "rgb(201,164,90)",
     path: "/kishore",
