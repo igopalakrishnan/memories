@@ -250,7 +250,7 @@ const Gokul = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/jaynath.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/vj.mp3`}
         // loop
       />
 
