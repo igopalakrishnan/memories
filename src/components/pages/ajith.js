@@ -12,28 +12,12 @@ const Ajith = () => {
   const [touchStartX, setTouchStartX] = useState(null);
   const [isPressed, setIsPressed] = useState(false);
 
-  // Auto-play when page loads
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          console.log("Autoplay blocked, user must click play");
-        });
-      // When audio finishes, reset button to Play
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-      });
-    }
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    };
-  }, []);
+   const images2023 = Array.from(
+    { length: 46 },
+    (_, i) => `${basePath}ajith/2023/img${i + 1}.jpg`,
+  );
+
+  
   const toggleAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -48,15 +32,6 @@ const Ajith = () => {
     }
   };
 
-  const images2024 = Array.from(
-    { length: 4 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
-  );
-
-  const images2025 = Array.from(
-    { length: 14 },
-    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
-  );
 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
@@ -94,11 +69,39 @@ const Ajith = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
+  // Auto-play when page loads
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          console.log("Autoplay blocked, user must click play");
+        });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsPlaying(false);
+      });
+    }
+    return () => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, []);
+
+  // 👇 New effect for scrolling to top
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
+
   return (
     <div>
-      <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
+      <h3 className="ms-3 mt-4 mb-3">19 November 2023</h3>
       <div style={styles.gallery}>
-        {images2024.map((src, index) => (
+        {images2023.map((src, index) => (
           <img
             key={index}
             src={src}
@@ -107,33 +110,7 @@ const Ajith = () => {
             loading="lazy"
             onClick={() => {
               setCurrentIndex(index);
-              setActiveList(images2024);
-            }}
-            // 👇 First fallback: try .jpeg if .jpg fails
-            onError={(e) => {
-              if (e.target.src.endsWith(".jpg")) {
-                e.target.src = src.replace(".jpg", ".jpeg");
-              } else {
-                // 👇 Second fallback: placeholder if both fail
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
-              }
-            }}
-          />
-        ))}
-      </div>
-
-      <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
-      <div style={styles.gallery}>
-        {images2025.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`2025 Gallery ${index}`}
-            style={styles.image}
-            loading="lazy"
-            onClick={() => {
-              setCurrentIndex(index);
-              setActiveList(images2025);
+              setActiveList(images2023);
             }}
             // 👇 First fallback: try .jpeg if .jpg fails
             onError={(e) => {

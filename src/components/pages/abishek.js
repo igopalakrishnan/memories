@@ -14,7 +14,7 @@ const Abishek = () => {
 
   const images2024 = Array.from(
     { length: 43 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
+    (_, i) => `${basePath}abishek/2025/img${i + 1}.jpg`,
   );
 
   const toggleAudio = () => {

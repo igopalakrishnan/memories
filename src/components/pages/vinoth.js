@@ -4,29 +4,35 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Vinoth = () => {
-  const audioRef = useRef(null);
-  const videoRef = useRef(null);
-  // Separate states
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+const Gokul = () => {
+ const audioRef = useRef(null);
+   const videoRef = useRef(null);
+   // Separate states
+   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+ 
+   const [currentIndex, setCurrentIndex] = useState(null);
+   const [activeList, setActiveList] = useState(null);
+   const [touchStartX, setTouchStartX] = useState(null);
+   const [isPressed, setIsPressed] = useState(false);
+   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [activeList, setActiveList] = useState(null);
-  const [touchStartX, setTouchStartX] = useState(null);
-  const [isPressed, setIsPressed] = useState(false);
-
-
-  const images2024 = Array.from(
-    { length: 59 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
+   const images2024 = Array.from(
+    { length: 4 },
+    (_, i) => `${basePath}vinoth/2024/img${i + 1}.jpg`,
   );
 
   const images2025 = Array.from(
-    { length: 63 },
-    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
+    { length: 14 },
+    (_, i) => `${basePath}vinoth/2025/img${i + 1}.jpg`,
   );
 
+
+   const videos2024 = [
+    `${process.env.PUBLIC_URL}/gallery/video/vinoth/2024.mp4`,
+  ];
+
+  
   // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
@@ -42,20 +48,7 @@ const Vinoth = () => {
     }
   };
 
-  // Toggle video
-  const playVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.play().then(() => setIsVideoPlaying(true));
-  };
-  const pauseVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.pause();
-    setIsVideoPlaying(false);
-  };
-
-
+ 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
     const diff = touchStartX - endX;
@@ -77,6 +70,18 @@ const Vinoth = () => {
     setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
   };
 
+  //   const handlePrevVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev > 0 ? prev - 1 : videos2024.length - 1,
+  //   );
+  // };
+
+  // const handleNextVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev < videos2024.length - 1 ? prev + 1 : 0,
+  //   );
+  // };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (currentIndex !== null) {
@@ -92,43 +97,44 @@ const Vinoth = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
-  // Auto-play audio when page loads
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio
-        .play()
-        .then(() => setIsAudioPlaying(true))
-        .catch(() => console.log("Autoplay blocked, user must click play"));
-      audio.addEventListener("ended", () => setIsAudioPlaying(false));
-    }
-    return () => {
+   // Auto-play audio when page loads
+    useEffect(() => {
+      const audio = audioRef.current;
       if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
+        audio
+          .play()
+          .then(() => setIsAudioPlaying(true))
+          .catch(() => console.log("Autoplay blocked, user must click play"));
+        audio.addEventListener("ended", () => setIsAudioPlaying(false));
       }
-    };
-  }, []);
+      return () => {
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      };
+    }, []);
+  
 
   // 👇 New effect for scrolling to top
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
 
   return (
     <div>
       <h3 className="ms-3 mt-4 mb-3">02 May 2024</h3>
-      {/* ✅ Video player */}
-      <div style={styles.videoContainer}>
+       {/* ✅ Video player */}
+      <div style={styles.videoWrapper}>
         <video
           ref={videoRef}
-          src={`${process.env.PUBLIC_URL}/gallery/video/vinoth/vinoth2024.mp4`}
+          src={videos2024[currentVideoIndex]}
           style={styles.video}
           autoPlay
           controls
           muted
         />
-        {/* <div style={{ marginTop: "10px", marginBottom: "15px" }}>
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
           <button style={styles.videoBtn} onClick={playVideo}>
             ▶ Play Video
           </button>
@@ -136,8 +142,14 @@ const Vinoth = () => {
             ⏸ Pause Video
           </button>
         </div> */}
+        {/* Side buttons */}
+        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
+          ◀
+        </button>
+        <button style={styles.nextBtn} onClick={handleNextVideo}>
+          ▶
+        </button> */}
       </div>
-
       <div style={styles.gallery}>
         {images2024.map((src, index) => (
           <img
@@ -208,7 +220,7 @@ const Vinoth = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/vinoth.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/gokul.mp3`}
         // loop
       />
 
@@ -301,20 +313,6 @@ const styles = {
     fontSize: "24px",
     cursor: "pointer",
   },
-  prevBtn: {
-    background: "transparent",
-    border: "none",
-    color: "white",
-    fontSize: "18px",
-    cursor: "pointer",
-  },
-  nextBtn: {
-    background: "transparent",
-    border: "none",
-    color: "white",
-    fontSize: "18px",
-    cursor: "pointer",
-  },
   audioBtn: {
     position: "fixed",
     bottom: "5px",
@@ -347,6 +345,42 @@ const styles = {
     backgroundColor: "#ff4081",
     color: "white",
   },
+  videoWrapper: {
+    textAlign: "center",
+    position: "relative",
+    width: "80%",
+    margin: "10px auto",
+  },
+  video: {
+    width: "100%",
+    borderRadius: "8px",
+  },
+  prevBtn: {
+    position: "absolute",
+    top: "50%",
+    left: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
+    color: "white",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
+    cursor: "pointer",
+    fontSize: "18px",
+  },
+  nextBtn: {
+    position: "absolute",
+    top: "50%",
+    right: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
+    color: "white",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
+    cursor: "pointer",
+    fontSize: "18px",
+  },
 };
 
-export default Vinoth;
+export default Gokul;

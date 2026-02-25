@@ -19,7 +19,7 @@ const Vinoth = () => {
 
   const images2025 = Array.from(
     { length: 63 },
-    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
+    (_, i) => `${basePath}abinash/2025/img${i + 1}.jpg`,
   );
 
   const videos2025 = [
@@ -43,17 +43,17 @@ const Vinoth = () => {
   };
 
   // Toggle video
-  const playVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.play().then(() => setIsVideoPlaying(true));
-  };
-  const pauseVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.pause();
-    setIsVideoPlaying(false);
-  };
+  // const playVideo = () => {
+  //   const video = videoRef.current;
+  //   if (!video) return;
+  //   video.play().then(() => setIsVideoPlaying(true));
+  // };
+  // const pauseVideo = () => {
+  //   const video = videoRef.current;
+  //   if (!video) return;
+  //   video.pause();
+  //   setIsVideoPlaying(false);
+  // };
 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
