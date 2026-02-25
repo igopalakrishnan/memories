@@ -12,28 +12,11 @@ const Abishek = () => {
   const [touchStartX, setTouchStartX] = useState(null);
   const [isPressed, setIsPressed] = useState(false);
 
-  // Auto-play when page loads
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          console.log("Autoplay blocked, user must click play");
-        });
-      // When audio finishes, reset button to Play
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-      });
-    }
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    };
-  }, []);
+  const images2024 = Array.from(
+    { length: 43 },
+    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
+  );
+
   const toggleAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -47,12 +30,6 @@ const Abishek = () => {
       setIsPlaying(true);
     }
   };
-
-  const images2024 = Array.from(
-    { length: 4 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
-  );
-
 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
@@ -90,6 +67,34 @@ const Abishek = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
+  // Auto-play when page loads
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          console.log("Autoplay blocked, user must click play");
+        });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsPlaying(false);
+      });
+    }
+    return () => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, []);
+
+  // 👇 New effect for scrolling to top
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div>
       <h3 className="ms-3 mt-4 mb-3">28 June 2025</h3>
@@ -117,7 +122,6 @@ const Abishek = () => {
           />
         ))}
       </div>
-
 
       {/* Floating audio button */}
       <button

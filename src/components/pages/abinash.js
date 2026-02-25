@@ -149,16 +149,17 @@ const Vinoth = () => {
           src={videos2025[currentVideoIndex]}
           style={styles.video}
           autoPlay
+          controls
           muted
         />
-        <div style={{ marginTop: "10px", marginBottom: "15px"}}>
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
           <button style={styles.videoBtn} onClick={playVideo}>
             ▶ Play Video
           </button>
           <button style={styles.videoBtn} onClick={pauseVideo}>
             ⏸ Pause Video
           </button>
-        </div>
+        </div> */}
         {/* Side buttons */}
         <button style={styles.prevBtn} onClick={handlePrevVideo}>
           ◀
@@ -341,7 +342,7 @@ const styles = {
     textAlign: "center",
     position: "relative",
     width: "80%",
-    margin: "0 auto",
+    margin: "10px auto",
   },
   video: {
     width: "100%",

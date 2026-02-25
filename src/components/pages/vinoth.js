@@ -125,16 +125,17 @@ const Vinoth = () => {
           src={`${process.env.PUBLIC_URL}/gallery/video/vinoth/vinoth2024.mp4`}
           style={styles.video}
           autoPlay
+          controls
           muted
         />
-        <div style={{ marginTop: "10px", marginBottom: "15px" }}>
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px" }}>
           <button style={styles.videoBtn} onClick={playVideo}>
             ▶ Play Video
           </button>
           <button style={styles.videoBtn} onClick={pauseVideo}>
             ⏸ Pause Video
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div style={styles.gallery}>
