@@ -63,17 +63,17 @@ const Manoj = () => {
     setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
   };
 
-  const handlePrevVideo = () => {
-    setCurrentVideoIndex((prev) =>
-      prev > 0 ? prev - 1 : videos2024.length - 1,
-    );
-  };
+  // const handlePrevVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev > 0 ? prev - 1 : videos2024.length - 1,
+  //   );
+  // };
 
-  const handleNextVideo = () => {
-    setCurrentVideoIndex((prev) =>
-      prev < videos2024.length - 1 ? prev + 1 : 0,
-    );
-  };
+  // const handleNextVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev < videos2024.length - 1 ? prev + 1 : 0,
+  //   );
+  // };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
