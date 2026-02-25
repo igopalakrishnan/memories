@@ -18,7 +18,7 @@ const Vinoth = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
   const images2025 = Array.from(
-    { length: 63 },
+    { length: 58 },
     (_, i) => `${basePath}abinash/2025/img${i + 1}.jpg`,
   );
 

@@ -4,60 +4,55 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Jaynath = () => {
-  const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [activeList, setActiveList] = useState(null);
-  const [touchStartX, setTouchStartX] = useState(null);
-  const [isPressed, setIsPressed] = useState(false);
+const Gokul = () => {
+ const audioRef = useRef(null);
+   const videoRef = useRef(null);
+   // Separate states
+   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+ 
+   const [currentIndex, setCurrentIndex] = useState(null);
+   const [activeList, setActiveList] = useState(null);
+   const [touchStartX, setTouchStartX] = useState(null);
+   const [isPressed, setIsPressed] = useState(false);
+   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
-  // Auto-play when page loads
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          console.log("Autoplay blocked, user must click play");
-        });
-      // When audio finishes, reset button to Play
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-      });
-    }
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    };
-  }, []);
+   const images2023 = Array.from(
+    { length: 24 },
+    (_, i) => `${basePath}jaynath/2023/img${i + 1}.jpg`,
+  );
+
+  const images2024 = Array.from(
+    { length: 48 },
+    (_, i) => `${basePath}jaynath/2024/img${i + 1}.jpg`,
+  );
+
+
+   const videos2023 = [
+    `${process.env.PUBLIC_URL}/gallery/video/jaynath/2023.mp4`,
+  ];
+
+   const videos2024 = [
+    `${process.env.PUBLIC_URL}/gallery/video/jaynath/2024.mp4`,
+  ];
+
+  
+  // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (isPlaying) {
+    if (isAudioPlaying) {
       audio.pause();
-      setIsPlaying(false);
+      setIsAudioPlaying(false);
     } else {
       audio.play().catch(() => {
         console.log("Autoplay blocked, user must click play");
       });
-      setIsPlaying(true);
+      setIsAudioPlaying(true);
     }
   };
 
-  const images2024 = Array.from(
-    { length: 4 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
-  );
-
-  const images2025 = Array.from(
-    { length: 14 },
-    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
-  );
-
+ 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
     const diff = touchStartX - endX;
@@ -79,6 +74,18 @@ const Jaynath = () => {
     setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
   };
 
+  //   const handlePrevVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev > 0 ? prev - 1 : videos2023.length - 1,
+  //   );
+  // };
+
+  // const handleNextVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev < videos2023.length - 1 ? prev + 1 : 0,
+  //   );
+  // };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (currentIndex !== null) {
@@ -94,11 +101,61 @@ const Jaynath = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
+   // Auto-play audio when page loads
+    useEffect(() => {
+      const audio = audioRef.current;
+      if (audio) {
+        audio
+          .play()
+          .then(() => setIsAudioPlaying(true))
+          .catch(() => console.log("Autoplay blocked, user must click play"));
+        audio.addEventListener("ended", () => setIsAudioPlaying(false));
+      }
+      return () => {
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      };
+    }, []);
+  
+
+  // 👇 New effect for scrolling to top
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, []);
+
   return (
     <div>
-      <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
+      <h3 className="ms-3 mt-4 mb-3">10 December 2023</h3>
+       {/* ✅ Video player */}
+      <div style={styles.videoWrapper}>
+        <video
+          ref={videoRef}
+          src={videos2023[currentVideoIndex]}
+          style={styles.video}
+          autoPlay
+          controls
+          muted
+        />
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
+          <button style={styles.videoBtn} onClick={playVideo}>
+            ▶ Play Video
+          </button>
+          <button style={styles.videoBtn} onClick={pauseVideo}>
+            ⏸ Pause Video
+          </button>
+        </div> */}
+        {/* Side buttons */}
+        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
+          ◀
+        </button>
+        <button style={styles.nextBtn} onClick={handleNextVideo}>
+          ▶
+        </button> */}
+      </div>
       <div style={styles.gallery}>
-        {images2024.map((src, index) => (
+        {images2023.map((src, index) => (
           <img
             key={index}
             src={src}
@@ -107,7 +164,7 @@ const Jaynath = () => {
             loading="lazy"
             onClick={() => {
               setCurrentIndex(index);
-              setActiveList(images2024);
+              setActiveList(images2023);
             }}
             // 👇 First fallback: try .jpeg if .jpg fails
             onError={(e) => {
@@ -122,9 +179,35 @@ const Jaynath = () => {
         ))}
       </div>
 
-      <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
+      <h3 className="ms-3 mt-4 mb-3">10 December 2024</h3>
+       {/* ✅ Video player */}
+      <div style={styles.videoWrapper}>
+        <video
+          ref={videoRef}
+          src={videos2024[currentVideoIndex]}
+          style={styles.video}
+          autoPlay
+          controls
+          muted
+        />
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
+          <button style={styles.videoBtn} onClick={playVideo}>
+            ▶ Play Video
+          </button>
+          <button style={styles.videoBtn} onClick={pauseVideo}>
+            ⏸ Pause Video
+          </button>
+        </div> */}
+        {/* Side buttons */}
+        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
+          ◀
+        </button>
+        <button style={styles.nextBtn} onClick={handleNextVideo}>
+          ▶
+        </button> */}
+      </div>
       <div style={styles.gallery}>
-        {images2025.map((src, index) => (
+        {images2024.map((src, index) => (
           <img
             key={index}
             src={src}
@@ -133,7 +216,7 @@ const Jaynath = () => {
             loading="lazy"
             onClick={() => {
               setCurrentIndex(index);
-              setActiveList(images2025);
+              setActiveList(images2024);
             }}
             // 👇 First fallback: try .jpeg if .jpg fails
             onError={(e) => {
@@ -161,13 +244,13 @@ const Jaynath = () => {
         onTouchEnd={() => setIsPressed(false)}
         onClick={toggleAudio}
       >
-        {isPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
       </button>
 
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/vj.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/jaynath.mp3`}
         // loop
       />
 
@@ -260,20 +343,6 @@ const styles = {
     fontSize: "24px",
     cursor: "pointer",
   },
-  prevBtn: {
-    background: "transparent",
-    border: "none",
-    color: "white",
-    fontSize: "18px",
-    cursor: "pointer",
-  },
-  nextBtn: {
-    background: "transparent",
-    border: "none",
-    color: "white",
-    fontSize: "18px",
-    cursor: "pointer",
-  },
   audioBtn: {
     position: "fixed",
     bottom: "5px",
@@ -295,6 +364,53 @@ const styles = {
     boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
     // glowing pink
   },
+  videoContainer: { textAlign: "center" },
+  video: { width: "80%", borderRadius: "8px" },
+  videoBtn: {
+    margin: "0 5px",
+    padding: "8px 12px",
+    borderRadius: "6px",
+    border: "none",
+    cursor: "pointer",
+    backgroundColor: "#ff4081",
+    color: "white",
+  },
+  videoWrapper: {
+    textAlign: "center",
+    position: "relative",
+    width: "80%",
+    margin: "10px auto",
+  },
+  video: {
+    width: "100%",
+    borderRadius: "8px",
+  },
+  prevBtn: {
+    position: "absolute",
+    top: "50%",
+    left: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
+    color: "white",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
+    cursor: "pointer",
+    fontSize: "18px",
+  },
+  nextBtn: {
+    position: "absolute",
+    top: "50%",
+    right: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
+    color: "white",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
+    cursor: "pointer",
+    fontSize: "18px",
+  },
 };
 
-export default Jaynath;
+export default Gokul;

@@ -18,12 +18,12 @@ const Gokul = () => {
    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
    const images2024 = Array.from(
-    { length: 4 },
+    { length: 59 },
     (_, i) => `${basePath}vinoth/2024/img${i + 1}.jpg`,
   );
 
   const images2025 = Array.from(
-    { length: 14 },
+    { length: 63 },
     (_, i) => `${basePath}vinoth/2025/img${i + 1}.jpg`,
   );
 

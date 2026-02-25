@@ -12,7 +12,7 @@ const Abishek = () => {
   const [touchStartX, setTouchStartX] = useState(null);
   const [isPressed, setIsPressed] = useState(false);
 
-  const images2024 = Array.from(
+  const images2025 = Array.from(
     { length: 43 },
     (_, i) => `${basePath}abishek/2025/img${i + 1}.jpg`,
   );
@@ -99,7 +99,7 @@ const Abishek = () => {
     <div>
       <h3 className="ms-3 mt-4 mb-3">28 June 2025</h3>
       <div style={styles.gallery}>
-        {images2024.map((src, index) => (
+        {images2025.map((src, index) => (
           <img
             key={index}
             src={src}
@@ -108,7 +108,7 @@ const Abishek = () => {
             loading="lazy"
             onClick={() => {
               setCurrentIndex(index);
-              setActiveList(images2024);
+              setActiveList(images2025);
             }}
             // 👇 First fallback: try .jpeg if .jpg fails
             onError={(e) => {

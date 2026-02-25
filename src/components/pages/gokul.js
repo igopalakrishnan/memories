@@ -5,19 +5,19 @@ const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
 const Gokul = () => {
- const audioRef = useRef(null);
-   const videoRef = useRef(null);
-   // Separate states
-   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
- 
-   const [currentIndex, setCurrentIndex] = useState(null);
-   const [activeList, setActiveList] = useState(null);
-   const [touchStartX, setTouchStartX] = useState(null);
-   const [isPressed, setIsPressed] = useState(false);
-   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const audioRef = useRef(null);
+  const videoRef = useRef(null);
+  // Separate states
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
-   const images2024 = Array.from(
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [activeList, setActiveList] = useState(null);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [isPressed, setIsPressed] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  const images2024 = Array.from(
     { length: 4 },
     (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
   );
@@ -27,12 +27,10 @@ const Gokul = () => {
     (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
   );
 
-
-   const videos2025 = [
+  const videos2025 = [
     `${process.env.PUBLIC_URL}/gallery/video/gokul/2025-1.mp4`,
   ];
 
-  
   // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
@@ -48,7 +46,6 @@ const Gokul = () => {
     }
   };
 
- 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
     const diff = touchStartX - endX;
@@ -70,7 +67,7 @@ const Gokul = () => {
     setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
   };
 
-    const handlePrevVideo = () => {
+  const handlePrevVideo = () => {
     setCurrentVideoIndex((prev) =>
       prev > 0 ? prev - 1 : videos2025.length - 1,
     );
@@ -97,59 +94,33 @@ const Gokul = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
-   // Auto-play audio when page loads
-    useEffect(() => {
-      const audio = audioRef.current;
+  // Auto-play audio when page loads
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio
+        .play()
+        .then(() => setIsAudioPlaying(true))
+        .catch(() => console.log("Autoplay blocked, user must click play"));
+      audio.addEventListener("ended", () => setIsAudioPlaying(false));
+    }
+    return () => {
       if (audio) {
-        audio
-          .play()
-          .then(() => setIsAudioPlaying(true))
-          .catch(() => console.log("Autoplay blocked, user must click play"));
-        audio.addEventListener("ended", () => setIsAudioPlaying(false));
+        audio.pause();
+        audio.currentTime = 0;
       }
-      return () => {
-        if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-        }
-      };
-    }, []);
-  
+    };
+  }, []);
 
   // 👇 New effect for scrolling to top
-    useEffect(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div>
       <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
-       {/* ✅ Video player */}
-      <div style={styles.videoWrapper}>
-        <video
-          ref={videoRef}
-          src={videos2025[currentVideoIndex]}
-          style={styles.video}
-          autoPlay
-          controls
-          muted
-        />
-        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
-          <button style={styles.videoBtn} onClick={playVideo}>
-            ▶ Play Video
-          </button>
-          <button style={styles.videoBtn} onClick={pauseVideo}>
-            ⏸ Pause Video
-          </button>
-        </div> */}
-        {/* Side buttons */}
-        <button style={styles.prevBtn} onClick={handlePrevVideo}>
-          ◀
-        </button>
-        <button style={styles.nextBtn} onClick={handleNextVideo}>
-          ▶
-        </button>
-      </div>
+
       <div style={styles.gallery}>
         {images2024.map((src, index) => (
           <img
@@ -176,6 +147,32 @@ const Gokul = () => {
       </div>
 
       <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
+      {/* ✅ Video player */}
+      <div style={styles.videoWrapper}>
+        <video
+          ref={videoRef}
+          src={videos2025[currentVideoIndex]}
+          style={styles.video}
+          autoPlay
+          controls
+          muted
+        />
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
+          <button style={styles.videoBtn} onClick={playVideo}>
+            ▶ Play Video
+          </button>
+          <button style={styles.videoBtn} onClick={pauseVideo}>
+            ⏸ Pause Video
+          </button>
+        </div> */}
+        {/* Side buttons */}
+        <button style={styles.prevBtn} onClick={handlePrevVideo}>
+          ◀
+        </button>
+        <button style={styles.nextBtn} onClick={handleNextVideo}>
+          ▶
+        </button>
+      </div>
       <div style={styles.gallery}>
         {images2025.map((src, index) => (
           <img
