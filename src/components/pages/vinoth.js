@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Gokul = () => {
+const Vinoth = () => {
  const audioRef = useRef(null);
    const videoRef = useRef(null);
    // Separate states
@@ -220,7 +220,7 @@ const Gokul = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/gokul.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/vinoth.mp3`}
         // loop
       />
 
@@ -383,4 +383,4 @@ const styles = {
   },
 };
 
-export default Gokul;
+export default Vinoth;
