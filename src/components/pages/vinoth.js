@@ -16,23 +16,16 @@ const Vinoth = () => {
   const [touchStartX, setTouchStartX] = useState(null);
   const [isPressed, setIsPressed] = useState(false);
 
-  // Auto-play audio when page loads
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio
-        .play()
-        .then(() => setIsAudioPlaying(true))
-        .catch(() => console.log("Autoplay blocked, user must click play"));
-      audio.addEventListener("ended", () => setIsAudioPlaying(false));
-    }
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    };
-  }, []);
+
+  const images2024 = Array.from(
+    { length: 59 },
+    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
+  );
+
+  const images2025 = Array.from(
+    { length: 63 },
+    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
+  );
 
   // Toggle audio
   const toggleAudio = () => {
@@ -62,15 +55,6 @@ const Vinoth = () => {
     setIsVideoPlaying(false);
   };
 
-  const images2024 = Array.from(
-    { length: 59 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
-  );
-
-  const images2025 = Array.from(
-    { length: 63 },
-    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
-  );
 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
@@ -108,6 +92,24 @@ const Vinoth = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
+  // Auto-play audio when page loads
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio
+        .play()
+        .then(() => setIsAudioPlaying(true))
+        .catch(() => console.log("Autoplay blocked, user must click play"));
+      audio.addEventListener("ended", () => setIsAudioPlaying(false));
+    }
+    return () => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, []);
+
   // 👇 New effect for scrolling to top
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -120,12 +122,12 @@ const Vinoth = () => {
       <div style={styles.videoContainer}>
         <video
           ref={videoRef}
-          src={`${process.env.PUBLIC_URL}/gallery/video/vinoth2024.mp4`}
+          src={`${process.env.PUBLIC_URL}/gallery/video/vinoth/vinoth2024.mp4`}
           style={styles.video}
           autoPlay
           muted
         />
-        <div style={{ marginTop: "10px" }}>
+        <div style={{ marginTop: "10px", marginBottom: "15px" }}>
           <button style={styles.videoBtn} onClick={playVideo}>
             ▶ Play Video
           </button>
