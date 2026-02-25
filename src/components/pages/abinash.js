@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Vinoth = () => {
+const Abinash = () => {
   const audioRef = useRef(null);
   const videoRef = useRef(null);
   // Separate states
@@ -376,4 +376,4 @@ const styles = {
   },
 };
 
-export default Vinoth;
+export default Abinash;
