@@ -41,7 +41,8 @@ const Gokul = () => {
   ];
 
   const videos2026 = [
-    `${process.env.PUBLIC_URL}/gallery/video/kavin/2026.mp4`,
+    `${process.env.PUBLIC_URL}/gallery/video/kavin/2026-1.mp4`,
+    `${process.env.PUBLIC_URL}/gallery/video/kavin/2026-2.mp4`,
   ];
 
   // Toggle audio
@@ -80,17 +81,17 @@ const Gokul = () => {
     setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
   };
 
-  // const handlePrevVideo = () => {
-  //   setCurrentVideoIndex((prev) =>
-  //     prev > 0 ? prev - 1 : videos2025.length - 1,
-  //   );
-  // };
+  const handlePrevVideo = () => {
+    setCurrentVideoIndex((prev) =>
+      prev > 0 ? prev - 1 : videos2026.length - 1,
+    );
+  };
 
-  // const handleNextVideo = () => {
-  //   setCurrentVideoIndex((prev) =>
-  //     prev < videos2025.length - 1 ? prev + 1 : 0,
-  //   );
-  // };
+  const handleNextVideo = () => {
+    setCurrentVideoIndex((prev) =>
+      prev < videos2026.length - 1 ? prev + 1 : 0,
+    );
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -257,12 +258,12 @@ const Gokul = () => {
           </button>
         </div> */}
         {/* Side buttons */}
-        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
+        <button style={styles.prevBtn} onClick={handlePrevVideo}>
           ◀
         </button>
         <button style={styles.nextBtn} onClick={handleNextVideo}>
           ▶
-        </button> */}
+        </button>
       </div>
 
       <div style={styles.gallery}>
@@ -309,7 +310,7 @@ const Gokul = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/gokul.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/kavin.mp3`}
         // loop
       />
 
