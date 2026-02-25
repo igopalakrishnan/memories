@@ -166,12 +166,12 @@ const Gokul = () => {
           </button>
         </div> */}
         {/* Side buttons */}
-        <button style={styles.prevBtn} onClick={handlePrevVideo}>
+        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
           ◀
         </button>
         <button style={styles.nextBtn} onClick={handleNextVideo}>
           ▶
-        </button>
+        </button> */}
       </div>
       <div style={styles.gallery}>
         {images2025.map((src, index) => (
