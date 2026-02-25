@@ -309,7 +309,7 @@ const Nithya = () => {
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/kavin.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/nithya.mp3`}
         // loop
       />
 
