@@ -4,59 +4,60 @@ import React, { useState, useEffect, useRef } from "react";
 const basePath =
   process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
 
-const Kavin = () => {
+const Gokul = () => {
   const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
+  // Separate states
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
   const [currentIndex, setCurrentIndex] = useState(null);
   const [activeList, setActiveList] = useState(null);
   const [touchStartX, setTouchStartX] = useState(null);
   const [isPressed, setIsPressed] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
-  // Auto-play when page loads
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          console.log("Autoplay blocked, user must click play");
-        });
-      // When audio finishes, reset button to Play
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-      });
-    }
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    };
-  }, []);
+  const images2024 = Array.from(
+    { length: 16 },
+    (_, i) => `${basePath}kavin/2024/img${i + 1}.jpg`,
+  );
+
+  const images2025 = Array.from(
+    { length: 68 },
+    (_, i) => `${basePath}kavin/2025/img${i + 1}.jpg`,
+  );
+
+  const images2026 = Array.from(
+    { length: 26 },
+    (_, i) => `${basePath}kavin/2026/img${i + 1}.jpg`,
+  );
+
+  const videos2024 = [
+    `${process.env.PUBLIC_URL}/gallery/video/kavin/2024.mp4`,
+  ];
+
+  const videos2025 = [
+    `${process.env.PUBLIC_URL}/gallery/video/kavin/2025.mp4`,
+  ];
+
+  const videos2026 = [
+    `${process.env.PUBLIC_URL}/gallery/video/kavin/2026.mp4`,
+  ];
+
+  // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (isPlaying) {
+    if (isAudioPlaying) {
       audio.pause();
-      setIsPlaying(false);
+      setIsAudioPlaying(false);
     } else {
       audio.play().catch(() => {
         console.log("Autoplay blocked, user must click play");
       });
-      setIsPlaying(true);
+      setIsAudioPlaying(true);
     }
   };
-
-  const images2024 = Array.from(
-    { length: 4 },
-    (_, i) => `${basePath}gokul/2024/img${i + 1}.jpg`,
-  );
-
-  const images2025 = Array.from(
-    { length: 14 },
-    (_, i) => `${basePath}gokul/2025/img${i + 1}.jpg`,
-  );
 
   const handleSwipe = (endX) => {
     if (touchStartX === null) return;
@@ -79,6 +80,18 @@ const Kavin = () => {
     setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
   };
 
+  // const handlePrevVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev > 0 ? prev - 1 : videos2025.length - 1,
+  //   );
+  // };
+
+  // const handleNextVideo = () => {
+  //   setCurrentVideoIndex((prev) =>
+  //     prev < videos2025.length - 1 ? prev + 1 : 0,
+  //   );
+  // };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (currentIndex !== null) {
@@ -94,9 +107,58 @@ const Kavin = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex, activeList]);
 
+  // Auto-play audio when page loads
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio
+        .play()
+        .then(() => setIsAudioPlaying(true))
+        .catch(() => console.log("Autoplay blocked, user must click play"));
+      audio.addEventListener("ended", () => setIsAudioPlaying(false));
+    }
+    return () => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    };
+  }, []);
+
+  // 👇 New effect for scrolling to top
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div>
-      <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
+      <h3 className="ms-3 mt-4 mb-3">04 February 2024</h3>
+      {/* ✅ Video player */}
+      <div style={styles.videoWrapper}>
+        <video
+          ref={videoRef}
+          src={videos2024[currentVideoIndex]}
+          style={styles.video}
+          autoPlay
+          controls
+          muted
+        />
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
+          <button style={styles.videoBtn} onClick={playVideo}>
+            ▶ Play Video
+          </button>
+          <button style={styles.videoBtn} onClick={pauseVideo}>
+            ⏸ Pause Video
+          </button>
+        </div> */}
+        {/* Side buttons */}
+        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
+          ◀
+        </button>
+        <button style={styles.nextBtn} onClick={handleNextVideo}>
+          ▶
+        </button> */}
+      </div>
       <div style={styles.gallery}>
         {images2024.map((src, index) => (
           <img
@@ -122,9 +184,89 @@ const Kavin = () => {
         ))}
       </div>
 
-      <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
+      <h3 className="ms-3 mt-4 mb-3">04 February 2025</h3>
+      {/* ✅ Video player */}
+      <div style={styles.videoWrapper}>
+        <video
+          ref={videoRef}
+          src={videos2025[currentVideoIndex]}
+          style={styles.video}
+          autoPlay
+          controls
+          muted
+        />
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
+          <button style={styles.videoBtn} onClick={playVideo}>
+            ▶ Play Video
+          </button>
+          <button style={styles.videoBtn} onClick={pauseVideo}>
+            ⏸ Pause Video
+          </button>
+        </div> */}
+        {/* Side buttons */}
+        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
+          ◀
+        </button>
+        <button style={styles.nextBtn} onClick={handleNextVideo}>
+          ▶
+        </button> */}
+      </div>
+
       <div style={styles.gallery}>
         {images2025.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt={`2025 Gallery ${index}`}
+            style={styles.image}
+            loading="lazy"
+            onClick={() => {
+              setCurrentIndex(index);
+              setActiveList(images2025);
+            }}
+            // 👇 First fallback: try .jpeg if .jpg fails
+            onError={(e) => {
+              if (e.target.src.endsWith(".jpg")) {
+                e.target.src = src.replace(".jpg", ".jpeg");
+              } else {
+                // 👇 Second fallback: placeholder if both fail
+                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+              }
+            }}
+          />
+        ))}
+      </div>
+
+       <h3 className="ms-3 mt-4 mb-3">04 February 2026</h3>
+      {/* ✅ Video player */}
+      <div style={styles.videoWrapper}>
+        <video
+          ref={videoRef}
+          src={videos2026[currentVideoIndex]}
+          style={styles.video}
+          autoPlay
+          controls
+          muted
+        />
+        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
+          <button style={styles.videoBtn} onClick={playVideo}>
+            ▶ Play Video
+          </button>
+          <button style={styles.videoBtn} onClick={pauseVideo}>
+            ⏸ Pause Video
+          </button>
+        </div> */}
+        {/* Side buttons */}
+        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
+          ◀
+        </button>
+        <button style={styles.nextBtn} onClick={handleNextVideo}>
+          ▶
+        </button> */}
+      </div>
+
+      <div style={styles.gallery}>
+        {images2026.map((src, index) => (
           <img
             key={index}
             src={src}
@@ -161,13 +303,13 @@ const Kavin = () => {
         onTouchEnd={() => setIsPressed(false)}
         onClick={toggleAudio}
       >
-        {isPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
       </button>
 
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/kavin.mp3`}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/gokul.mp3`}
         // loop
       />
 
@@ -260,20 +402,6 @@ const styles = {
     fontSize: "24px",
     cursor: "pointer",
   },
-  prevBtn: {
-    background: "transparent",
-    border: "none",
-    color: "white",
-    fontSize: "18px",
-    cursor: "pointer",
-  },
-  nextBtn: {
-    background: "transparent",
-    border: "none",
-    color: "white",
-    fontSize: "18px",
-    cursor: "pointer",
-  },
   audioBtn: {
     position: "fixed",
     bottom: "5px",
@@ -295,6 +423,53 @@ const styles = {
     boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
     // glowing pink
   },
+  videoContainer: { textAlign: "center" },
+  video: { width: "80%", borderRadius: "8px" },
+  videoBtn: {
+    margin: "0 5px",
+    padding: "8px 12px",
+    borderRadius: "6px",
+    border: "none",
+    cursor: "pointer",
+    backgroundColor: "#ff4081",
+    color: "white",
+  },
+  videoWrapper: {
+    textAlign: "center",
+    position: "relative",
+    width: "80%",
+    margin: "10px auto",
+  },
+  video: {
+    width: "100%",
+    borderRadius: "8px",
+  },
+  prevBtn: {
+    position: "absolute",
+    top: "50%",
+    left: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
+    color: "white",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
+    cursor: "pointer",
+    fontSize: "18px",
+  },
+  nextBtn: {
+    position: "absolute",
+    top: "50%",
+    right: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
+    color: "white",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
+    cursor: "pointer",
+    fontSize: "18px",
+  },
 };
 
-export default Kavin;
+export default Gokul;
