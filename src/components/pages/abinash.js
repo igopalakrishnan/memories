@@ -114,8 +114,13 @@ const Abinash = () => {
               style={styles.image}
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
-              onError={(e) => {
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+               onError={(e) => {
+                // fallback for jpg/jpeg
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
               }}
             />
           ) : (
@@ -127,6 +132,10 @@ const Abinash = () => {
                 muted
                 preload="none"
                 onClick={() => setCurrentIndex(index)}
+                // fallback for poster
+                onError={(e) => {
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                }}
               />
               <span style={styles.playIcon}>▶</span>
             </div>
@@ -178,6 +187,13 @@ const Abinash = () => {
               src={media2025[currentIndex].src}
               alt="Enlarged"
               style={styles.modalMedia}
+              onError={(e) => {
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = media2025[currentIndex].src.replace(".jpg", ".jpeg");
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
+              }}
             />
           ) : (
             <video
@@ -188,6 +204,9 @@ const Abinash = () => {
               autoPlay
               muted
               preload="auto"
+              onError={(e) => {
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+              }}
             />
           )}
 
