@@ -6,42 +6,30 @@ const Gokul = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [touchStartX, setTouchStartX] = useState(null);
+
+  // Media for 2024
+  const media2024 = [
+    ...Array.from({ length: 4 }, (_, i) => ({
+      type: "image",
+      src: `${process.env.PUBLIC_URL}/gallery/gokul/2024/img${i + 1}.jpg`,
+    })),
+  ];
   // Media for 2025
   const media2025 = [
     {
       type: "video",
-      src: `${process.env.PUBLIC_URL}/gallery/video/abinash/2025-1.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2025/video1-thumb.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/video/gokul/2025.mp4`,
+      poster: `${process.env.PUBLIC_URL}/gallery/gokul/2025/video-thumb.jpg`,
     },
-    {
-      type: "video",
-      src: `${process.env.PUBLIC_URL}/gallery/video/abinash/2025-2.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2025/video2-thumb.jpg`,
-    },
-    ...Array.from({ length: 58 }, (_, i) => ({
+    ...Array.from({ length: 14 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/abinash/2025/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/gokul/2025/img${i + 1}.jpg`,
     })),
   ];
-  // Media for 2026
-  const media2026 = [
-    {
-      type: "video",
-      src: `${process.env.PUBLIC_URL}/gallery/video/abinash/2026-1.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2026/video1-thumb.jpg`,
-    },
-    {
-      type: "video",
-      src: `${process.env.PUBLIC_URL}/gallery/video/abinash/2026-2.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2026/video2-thumb.jpg`,
-    },
-    ...Array.from({ length: 42 }, (_, i) => ({
-      type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/abinash/2026/img${i + 1}.jpg`,
-    })),
-  ];
+
   // Unified media list across years
-  const mediaAll = [...media2025, ...media2026];
+  const mediaAll = [...media2024, ...media2025];
+
   // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
@@ -109,26 +97,28 @@ const Gokul = () => {
   }, []);
   return (
     <div>
-      {" "}
-      <h3 className="ms-3 mt-4 mb-3">15 December 2025</h3>{" "}
+      <h3 className="ms-3 mt-4 mb-3">31 October 2024</h3>
       <div style={styles.gallery}>
-        {" "}
-        {media2025.map((item, index) =>
+        {media2024.map((item, index) =>
           item.type === "image" ? (
             <img
               key={index}
               src={item.src}
-              alt={`2025 Gallery ${index}`}
+              alt={`2024 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                // fallback for jpg/jpeg
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
               }}
             />
           ) : (
             <div key={index} style={{ position: "relative" }}>
-              {" "}
               <video
                 src={item.src}
                 poster={item.poster}
@@ -136,16 +126,19 @@ const Gokul = () => {
                 muted
                 preload="none"
                 onClick={() => setCurrentIndex(index)}
-              />{" "}
-              <span style={styles.playIcon}>▶</span>{" "}
+                // fallback for poster
+                onError={(e) => {
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                }}
+              />
+              <span style={styles.playIcon}>▶</span>
             </div>
           ),
-        )}{" "}
-      </div>{" "}
-      <h3 className="ms-3 mt-4 mb-3">15 December 2026</h3>{" "}
+        )}
+      </div>
+      <h3 className="ms-3 mt-4 mb-3">31 October 2025</h3>
       <div style={styles.gallery}>
-        {" "}
-        {media2026.map((item, index) =>
+        {media2025.map((item, index) =>
           item.type === "image" ? (
             <img
               key={index}
@@ -153,28 +146,36 @@ const Gokul = () => {
               alt={`2026 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
-              onClick={() => setCurrentIndex(media2025.length + index)}
+              onClick={() => setCurrentIndex(media2024.length + index)}
               onError={(e) => {
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                // fallback for jpg/jpeg
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
               }}
             />
           ) : (
             <div key={index} style={{ position: "relative" }}>
-              {" "}
               <video
                 src={item.src}
                 poster={item.poster}
                 style={styles.image}
                 muted
                 preload="none"
-                onClick={() => setCurrentIndex(media2025.length + index)}
-              />{" "}
-              <span style={styles.playIcon}>▶</span>{" "}
+                onClick={() => setCurrentIndex(media2024.length + index)}
+                // fallback for poster
+                onError={(e) => {
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                }}
+              />
+              <span style={styles.playIcon}>▶</span>
             </div>
           ),
-        )}{" "}
-      </div>{" "}
-      {/* Floating audio button */}{" "}
+        )}
+      </div>
+      {/* Floating audio button */}
       <button
         style={{
           ...styles.audioBtn,
@@ -187,15 +188,14 @@ const Gokul = () => {
         onTouchEnd={() => setIsPressed(false)}
         onClick={toggleAudio}
       >
-        {" "}
-        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}{" "}
-      </button>{" "}
-      {/* Hidden audio element */}{" "}
+        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+      </button>
+      {/* Hidden audio element */}
       <audio
         ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/abinash.mp3`}
-      />{" "}
-      {/* Unified Modal */}{" "}
+        src={`${process.env.PUBLIC_URL}/gallery/audio/gokul.mp3`}
+      />
+      {/* Unified Modal */}
       {currentIndex !== null && (
         <div
           style={styles.modal}
@@ -205,18 +205,27 @@ const Gokul = () => {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {" "}
           <button style={styles.closeBtn} onClick={() => setCurrentIndex(null)}>
             ✖
-          </button>{" "}
+          </button>
           <button style={styles.prevBtn} onClick={handlePrev}>
             ◀
-          </button>{" "}
+          </button>
           {mediaAll[currentIndex].type === "image" ? (
             <img
               src={mediaAll[currentIndex].src}
               alt="Enlarged"
               style={styles.modalMedia}
+              onError={(e) => {
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = mediaAll[currentIndex].src.replace(
+                    ".jpg",
+                    ".jpeg",
+                  );
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
+              }}
             />
           ) : (
             <video
@@ -227,13 +236,16 @@ const Gokul = () => {
               autoPlay
               muted
               preload="auto"
+              onError={(e) => {
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+              }}
             />
-          )}{" "}
+          )}
           <button style={styles.nextBtn} onClick={handleNext}>
             ▶
-          </button>{" "}
+          </button>
         </div>
-      )}{" "}
+      )}
     </div>
   );
 };
@@ -336,7 +348,7 @@ const styles = {
   },
   audioBtnActive: {
     transform: "scale(0.9)",
-    boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
+    boxShadow: "0 0 31px rgba(255, 64, 129, 0.8)",
   },
 };
 
