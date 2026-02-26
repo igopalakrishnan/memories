@@ -10,7 +10,6 @@ const Ajith = () => {
 
   // Unified media list: images + videos
   const media2025 = [
-    
     // Images
     ...Array.from({ length: 46 }, (_, i) => ({
       type: "image",
