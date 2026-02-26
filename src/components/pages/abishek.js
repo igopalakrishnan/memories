@@ -1,126 +1,136 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ Base path logic
-const basePath =
-  process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
-
 const Abishek = () => {
   const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [activeList, setActiveList] = useState(null);
-  const [touchStartX, setTouchStartX] = useState(null);
+
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [touchStartX, setTouchStartX] = useState(null);
 
-  const images2025 = Array.from(
-    { length: 43 },
-    (_, i) => `${basePath}abishek/2025/img${i + 1}.jpg`,
-  );
+  // Unified media list: images + videos
+  const media2025 = [
+    
+    // Images
+    ...Array.from({ length: 43 }, (_, i) => ({
+      type: "image",
+      src: `${process.env.PUBLIC_URL}/gallery/abishek/2025/img${i + 1}.jpg`,
+    })),
+  ];
 
+  // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (isPlaying) {
+    if (isAudioPlaying) {
       audio.pause();
-      setIsPlaying(false);
+      setIsAudioPlaying(false);
     } else {
       audio.play().catch(() => {
         console.log("Autoplay blocked, user must click play");
       });
-      setIsPlaying(true);
+      setIsAudioPlaying(true);
     }
   };
 
-  const handleSwipe = (endX) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - endX;
-    if (diff > 50) {
-      // swipe left → next image
-      handleNext();
-    } else if (diff < -50) {
-      // swipe right → previous image
-      handlePrev();
-    }
-    setTouchStartX(null);
-  };
-
+  // Navigation
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : activeList.length - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : media2025.length - 1));
   };
-
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) => (prev < media2025.length - 1 ? prev + 1 : 0));
   };
 
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (currentIndex !== null) {
         if (e.key === "ArrowLeft") handlePrev();
         if (e.key === "ArrowRight") handleNext();
-        if (e.key === "Escape") {
-          setCurrentIndex(null);
-          setActiveList(null);
-        }
+        if (e.key === "Escape") setCurrentIndex(null);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, activeList]);
+  }, [currentIndex]);
 
-  // Auto-play when page loads
+  //Swipe gesture in mobile
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+  const handleTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (diff > 50) {
+      // swipe left → next
+      handleNext();
+    } else if (diff < -50) {
+      // swipe right → prev
+      handlePrev();
+    }
+    setTouchStartX(null);
+  };
+
+  // Auto‑play audio when page loads
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
       audio
         .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          console.log("Autoplay blocked, user must click play");
+        .then(() => {
+          setIsAudioPlaying(true);
+        })
+        .catch((err) => {
+          console.log(
+            "Autoplay blocked by browser, user must click play:",
+            err,
+          );
         });
-      // When audio finishes, reset button to Play
-      audio.addEventListener("ended", () => {
-        setIsPlaying(false);
-      });
     }
-    return () => {
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    };
-  }, []);
-
-  // 👇 New effect for scrolling to top
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   return (
     <div>
       <h3 className="ms-3 mt-4 mb-3">28 June 2025</h3>
+      {/* ✅ Gallery */}
       <div style={styles.gallery}>
-        {images2025.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`2024 Gallery ${index}`}
-            style={styles.image}
-            loading="lazy"
-            onClick={() => {
-              setCurrentIndex(index);
-              setActiveList(images2025);
-            }}
-            // 👇 First fallback: try .jpeg if .jpg fails
-            onError={(e) => {
-              if (e.target.src.endsWith(".jpg")) {
-                e.target.src = src.replace(".jpg", ".jpeg");
-              } else {
-                // 👇 Second fallback: placeholder if both fail
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
-              }
-            }}
-          />
-        ))}
+        {media2025.map((item, index) =>
+          item.type === "image" ? (
+            <img
+              key={index}
+              src={item.src}
+              alt={`Gallery ${index}`}
+              style={styles.image}
+              loading="lazy"
+              onClick={() => setCurrentIndex(index)}
+              onError={(e) => {
+                // fallback for jpg/jpeg
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
+              }}
+            />
+          ) : (
+            <div key={index} style={{ position: "relative" }}>
+              <video
+                src={item.src}
+                poster={item.poster}
+                style={styles.image}
+                muted
+                preload="none"
+                onClick={() => setCurrentIndex(index)}
+                // fallback for poster
+                onError={(e) => {
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                }}
+              />
+              <span style={styles.playIcon}>▶</span>
+            </div>
+          ),
+        )}
       </div>
 
       {/* Floating audio button */}
@@ -136,56 +146,62 @@ const Abishek = () => {
         onTouchEnd={() => setIsPressed(false)}
         onClick={toggleAudio}
       >
-        {isPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
       </button>
 
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
         src={`${process.env.PUBLIC_URL}/gallery/audio/abishek.mp3`}
-        // loop
       />
 
+      {/* Unified Modal */}
       {currentIndex !== null && (
         <div
           style={styles.modal}
           onClick={(e) => {
-            // Close only if user clicks on the overlay itself
-            if (e.target === e.currentTarget) {
-              setCurrentIndex(null);
-              setActiveList(null);
-            }
+            if (e.target === e.currentTarget) setCurrentIndex(null);
           }}
-          onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
-          onTouchEnd={(e) => handleSwipe(e.changedTouches[0].clientX)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          <button
-            style={styles.closeBtn}
-            onClick={() => {
-              setCurrentIndex(null);
-              setActiveList(null);
-            }}
-          >
+          <button style={styles.closeBtn} onClick={() => setCurrentIndex(null)}>
             ✖
           </button>
           <button style={styles.prevBtn} onClick={handlePrev}>
             ◀
           </button>
-          <img
-            src={activeList[currentIndex]}
-            alt="Enlarged"
-            style={styles.modalImage}
-            onError={(e) => {
-              if (e.target.src.endsWith(".jpg")) {
-                e.target.src = activeList[currentIndex].replace(
-                  ".jpg",
-                  ".jpeg",
-                );
-              } else {
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
-              }
-            }}
-          />
+
+          {media2025[currentIndex].type === "image" ? (
+            <img
+              src={media2025[currentIndex].src}
+              alt="Enlarged"
+              style={styles.modalMedia}
+              onError={(e) => {
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = media2025[currentIndex].src.replace(
+                    ".jpg",
+                    ".jpeg",
+                  );
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
+              }}
+            />
+          ) : (
+            <video
+              src={media2025[currentIndex].src}
+              poster={media2025[currentIndex].poster}
+              style={styles.modalMedia}
+              controls
+              autoPlay
+              muted
+              preload="auto"
+              onError={(e) => {
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+              }}
+            />
+          )}
 
           <button style={styles.nextBtn} onClick={handleNext}>
             ▶
@@ -211,6 +227,18 @@ const styles = {
     borderRadius: "8px",
     cursor: "pointer",
   },
+  playIcon: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    fontSize: "10px",
+    color: "white",
+    background: "rgba(0,0,0,0.6)",
+    borderRadius: "50%",
+    padding: "5px 8px",
+    pointerEvents: "none",
+  },
   modal: {
     position: "fixed",
     top: 0,
@@ -224,7 +252,11 @@ const styles = {
     gap: "20px",
     zIndex: 3000,
   },
-  modalImage: { maxWidth: "70%", maxHeight: "80%", borderRadius: "8px" },
+  modalMedia: {
+    maxWidth: "70%",
+    maxHeight: "80%",
+    borderRadius: "8px",
+  },
   closeBtn: {
     position: "absolute",
     top: "20px",
@@ -236,18 +268,30 @@ const styles = {
     cursor: "pointer",
   },
   prevBtn: {
-    background: "transparent",
-    border: "none",
+    position: "absolute",
+    top: "50%",
+    left: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
     color: "white",
-    fontSize: "18px",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
     cursor: "pointer",
+    fontSize: "18px",
   },
   nextBtn: {
-    background: "transparent",
-    border: "none",
+    position: "absolute",
+    top: "50%",
+    right: "10px",
+    transform: "translateY(-50%)",
+    background: "rgba(0,0,0,0.5)",
     color: "white",
-    fontSize: "18px",
+    border: "none",
+    borderRadius: "50%",
+    padding: "10px",
     cursor: "pointer",
+    fontSize: "18px",
   },
   audioBtn: {
     position: "fixed",
@@ -266,9 +310,7 @@ const styles = {
   },
   audioBtnActive: {
     transform: "scale(0.9)",
-    // quick shrink
     boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
-    // glowing pink
   },
 };
 
