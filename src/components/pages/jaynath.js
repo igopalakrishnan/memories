@@ -1,42 +1,40 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// ✅ Base path logic
-const basePath =
-  process.env.NODE_ENV === "production" ? "/memories/gallery/" : "/gallery/";
-
 const Jaynath = () => {
- const audioRef = useRef(null);
-   const videoRef = useRef(null);
-   // Separate states
-   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
- 
-   const [currentIndex, setCurrentIndex] = useState(null);
-   const [activeList, setActiveList] = useState(null);
-   const [touchStartX, setTouchStartX] = useState(null);
-   const [isPressed, setIsPressed] = useState(false);
-   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const audioRef = useRef(null);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [touchStartX, setTouchStartX] = useState(null);
 
-   const images2023 = Array.from(
-    { length: 24 },
-    (_, i) => `${basePath}jaynath/2023/img${i + 1}.jpg`,
-  );
-
-  const images2024 = Array.from(
-    { length: 48 },
-    (_, i) => `${basePath}jaynath/2024/img${i + 1}.jpg`,
-  );
-
-
-   const videos2023 = [
-    `${process.env.PUBLIC_URL}/gallery/video/jaynath/2023.mp4`,
+  // Media for 2023
+  const media2023 = [
+    {
+      type: "video",
+      src: `${process.env.PUBLIC_URL}/gallery/video/jaynath/2023.mp4`,
+      poster: `${process.env.PUBLIC_URL}/gallery/jaynath/2023/video-thumb.jpg`,
+    },
+    ...Array.from({ length: 24 }, (_, i) => ({
+      type: "image",
+      src: `${process.env.PUBLIC_URL}/gallery/jaynath/2023/img${i + 1}.jpg`,
+    })),
+  ];
+  // Media for 2024
+  const media2024 = [
+    {
+      type: "video",
+      src: `${process.env.PUBLIC_URL}/gallery/video/jaynath/2024.mp4`,
+      poster: `${process.env.PUBLIC_URL}/gallery/jaynath/2024/video-thumb.jpg`,
+    },
+    ...Array.from({ length: 48 }, (_, i) => ({
+      type: "image",
+      src: `${process.env.PUBLIC_URL}/gallery/jaynath/2024/img${i + 1}.jpg`,
+    })),
   ];
 
-   const videos2024 = [
-    `${process.env.PUBLIC_URL}/gallery/video/jaynath/2024.mp4`,
-  ];
+  // Unified media list across years
+  const mediaAll = [...media2023, ...media2024];
 
-  
   // Toggle audio
   const toggleAudio = () => {
     const audio = audioRef.current;
@@ -51,186 +49,137 @@ const Jaynath = () => {
       setIsAudioPlaying(true);
     }
   };
-
- 
-  const handleSwipe = (endX) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - endX;
-    if (diff > 50) {
-      // swipe left → next image
-      handleNext();
-    } else if (diff < -50) {
-      // swipe right → previous image
-      handlePrev();
-    }
-    setTouchStartX(null);
-  };
-
+  // Navigation
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : activeList.length - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : mediaAll.length - 1));
   };
-
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < activeList.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) => (prev < mediaAll.length - 1 ? prev + 1 : 0));
   };
-
-  //   const handlePrevVideo = () => {
-  //   setCurrentVideoIndex((prev) =>
-  //     prev > 0 ? prev - 1 : videos2023.length - 1,
-  //   );
-  // };
-
-  // const handleNextVideo = () => {
-  //   setCurrentVideoIndex((prev) =>
-  //     prev < videos2023.length - 1 ? prev + 1 : 0,
-  //   );
-  // };
-
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (currentIndex !== null) {
         if (e.key === "ArrowLeft") handlePrev();
         if (e.key === "ArrowRight") handleNext();
-        if (e.key === "Escape") {
-          setCurrentIndex(null);
-          setActiveList(null);
-        }
+        if (e.key === "Escape") setCurrentIndex(null);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex, activeList]);
-
-   // Auto-play audio when page loads
-    useEffect(() => {
-      const audio = audioRef.current;
-      if (audio) {
-        audio
-          .play()
-          .then(() => setIsAudioPlaying(true))
-          .catch(() => console.log("Autoplay blocked, user must click play"));
-        audio.addEventListener("ended", () => setIsAudioPlaying(false));
-      }
-      return () => {
-        if (audio) {
-          audio.pause();
-          audio.currentTime = 0;
-        }
-      };
-    }, []);
-  
-
-  // 👇 New effect for scrolling to top
-    useEffect(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, []);
-
+  }, [currentIndex]);
+  // Swipe gesture
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+  const handleTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (diff > 50) {
+      handleNext();
+    } else if (diff < -50) {
+      handlePrev();
+    }
+    setTouchStartX(null);
+  };
+  // Auto‑play audio when page loads
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio
+        .play()
+        .then(() => {
+          setIsAudioPlaying(true);
+        })
+        .catch((err) => {
+          console.log(
+            "Autoplay blocked by browser, user must click play:",
+            err,
+          );
+        });
+    }
+  }, []);
   return (
     <div>
       <h3 className="ms-3 mt-4 mb-3">10 December 2023</h3>
-       {/* ✅ Video player */}
-      <div style={styles.videoWrapper}>
-        <video
-          ref={videoRef}
-          src={videos2023[currentVideoIndex]}
-          style={styles.video}
-          autoPlay
-          controls
-          muted
-        />
-        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
-          <button style={styles.videoBtn} onClick={playVideo}>
-            ▶ Play Video
-          </button>
-          <button style={styles.videoBtn} onClick={pauseVideo}>
-            ⏸ Pause Video
-          </button>
-        </div> */}
-        {/* Side buttons */}
-        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
-          ◀
-        </button>
-        <button style={styles.nextBtn} onClick={handleNextVideo}>
-          ▶
-        </button> */}
-      </div>
       <div style={styles.gallery}>
-        {images2023.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`2024 Gallery ${index}`}
-            style={styles.image}
-            loading="lazy"
-            onClick={() => {
-              setCurrentIndex(index);
-              setActiveList(images2023);
-            }}
-            // 👇 First fallback: try .jpeg if .jpg fails
-            onError={(e) => {
-              if (e.target.src.endsWith(".jpg")) {
-                e.target.src = src.replace(".jpg", ".jpeg");
-              } else {
-                // 👇 Second fallback: placeholder if both fail
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
-              }
-            }}
-          />
-        ))}
+        {media2023.map((item, index) =>
+          item.type === "image" ? (
+            <img
+              key={index}
+              src={item.src}
+              alt={`2023 Gallery ${index}`}
+              style={styles.image}
+              loading="lazy"
+              onClick={() => setCurrentIndex(index)}
+              onError={(e) => {
+                // fallback for jpg/jpeg
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
+              }}
+            />
+          ) : (
+            <div key={index} style={{ position: "relative" }}>
+              <video
+                src={item.src}
+                poster={item.poster}
+                style={styles.image}
+                muted
+                preload="none"
+                onClick={() => setCurrentIndex(index)}
+                // fallback for poster
+                onError={(e) => {
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                }}
+              />
+              <span style={styles.playIcon}>▶</span>
+            </div>
+          ),
+        )}
       </div>
-
       <h3 className="ms-3 mt-4 mb-3">10 December 2024</h3>
-       {/* ✅ Video player */}
-      <div style={styles.videoWrapper}>
-        <video
-          ref={videoRef}
-          src={videos2024[currentVideoIndex]}
-          style={styles.video}
-          autoPlay
-          controls
-          muted
-        />
-        {/* <div style={{ marginTop: "10px", marginBottom: "15px"}}>
-          <button style={styles.videoBtn} onClick={playVideo}>
-            ▶ Play Video
-          </button>
-          <button style={styles.videoBtn} onClick={pauseVideo}>
-            ⏸ Pause Video
-          </button>
-        </div> */}
-        {/* Side buttons */}
-        {/* <button style={styles.prevBtn} onClick={handlePrevVideo}>
-          ◀
-        </button>
-        <button style={styles.nextBtn} onClick={handleNextVideo}>
-          ▶
-        </button> */}
-      </div>
       <div style={styles.gallery}>
-        {images2024.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`2025 Gallery ${index}`}
-            style={styles.image}
-            loading="lazy"
-            onClick={() => {
-              setCurrentIndex(index);
-              setActiveList(images2024);
-            }}
-            // 👇 First fallback: try .jpeg if .jpg fails
-            onError={(e) => {
-              if (e.target.src.endsWith(".jpg")) {
-                e.target.src = src.replace(".jpg", ".jpeg");
-              } else {
-                // 👇 Second fallback: placeholder if both fail
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
-              }
-            }}
-          />
-        ))}
+        {media2024.map((item, index) =>
+          item.type === "image" ? (
+            <img
+              key={index}
+              src={item.src}
+              alt={`2024 Gallery ${index}`}
+              style={styles.image}
+              loading="lazy"
+              onClick={() => setCurrentIndex(media2023.length + index)}
+              onError={(e) => {
+                // fallback for jpg/jpeg
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
+              }}
+            />
+          ) : (
+            <div key={index} style={{ position: "relative" }}>
+              <video
+                src={item.src}
+                poster={item.poster}
+                style={styles.image}
+                muted
+                preload="none"
+                onClick={() => setCurrentIndex(media2023.length + index)}
+                // fallback for poster
+                onError={(e) => {
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                }}
+              />
+              <span style={styles.playIcon}>▶</span>
+            </div>
+          ),
+        )}
       </div>
-
       {/* Floating audio button */}
       <button
         style={{
@@ -246,55 +195,57 @@ const Jaynath = () => {
       >
         {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
       </button>
-
       {/* Hidden audio element */}
       <audio
         ref={audioRef}
         src={`${process.env.PUBLIC_URL}/gallery/audio/vj.mp3`}
-        // loop
       />
-
+      {/* Unified Modal */}
       {currentIndex !== null && (
         <div
           style={styles.modal}
           onClick={(e) => {
-            // Close only if user clicks on the overlay itself
-            if (e.target === e.currentTarget) {
-              setCurrentIndex(null);
-              setActiveList(null);
-            }
+            if (e.target === e.currentTarget) setCurrentIndex(null);
           }}
-          onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
-          onTouchEnd={(e) => handleSwipe(e.changedTouches[0].clientX)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          <button
-            style={styles.closeBtn}
-            onClick={() => {
-              setCurrentIndex(null);
-              setActiveList(null);
-            }}
-          >
+          <button style={styles.closeBtn} onClick={() => setCurrentIndex(null)}>
             ✖
           </button>
           <button style={styles.prevBtn} onClick={handlePrev}>
             ◀
           </button>
-          <img
-            src={activeList[currentIndex]}
-            alt="Enlarged"
-            style={styles.modalImage}
-            onError={(e) => {
-              if (e.target.src.endsWith(".jpg")) {
-                e.target.src = activeList[currentIndex].replace(
-                  ".jpg",
-                  ".jpeg",
-                );
-              } else {
-                e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
-              }
-            }}
-          />
-
+          {mediaAll[currentIndex].type === "image" ? (
+            <img
+              src={mediaAll[currentIndex].src}
+              alt="Enlarged"
+              style={styles.modalMedia}
+              onError={(e) => {
+                if (e.target.src.endsWith(".jpg")) {
+                  e.target.src = mediaAll[currentIndex].src.replace(
+                    ".jpg",
+                    ".jpeg",
+                  );
+                } else {
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                }
+              }}
+            />
+          ) : (
+            <video
+              src={mediaAll[currentIndex].src}
+              poster={mediaAll[currentIndex].poster}
+              style={styles.modalMedia}
+              controls
+              autoPlay
+              muted
+              preload="auto"
+              onError={(e) => {
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+              }}
+            />
+          )}
           <button style={styles.nextBtn} onClick={handleNext}>
             ▶
           </button>
@@ -319,6 +270,18 @@ const styles = {
     borderRadius: "8px",
     cursor: "pointer",
   },
+  playIcon: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    fontSize: "10px",
+    color: "white",
+    background: "rgba(0,0,0,0.6)",
+    borderRadius: "50%",
+    padding: "5px 8px",
+    pointerEvents: "none",
+  },
   modal: {
     position: "fixed",
     top: 0,
@@ -332,7 +295,11 @@ const styles = {
     gap: "20px",
     zIndex: 3000,
   },
-  modalImage: { maxWidth: "70%", maxHeight: "80%", borderRadius: "8px" },
+  modalMedia: {
+    maxWidth: "70%",
+    maxHeight: "80%",
+    borderRadius: "8px",
+  },
   closeBtn: {
     position: "absolute",
     top: "20px",
@@ -342,48 +309,6 @@ const styles = {
     color: "white",
     fontSize: "24px",
     cursor: "pointer",
-  },
-  audioBtn: {
-    position: "fixed",
-    bottom: "5px",
-    right: "20px",
-    backgroundColor: "#ff4081",
-    color: "white",
-    border: "none",
-    borderRadius: "30px",
-    padding: "10px 16px",
-    fontSize: "14px",
-    cursor: "pointer",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-    zIndex: 4000,
-    transition: "transform 0.2s ease, box-shadow 0.2s ease",
-  },
-  audioBtnActive: {
-    transform: "scale(0.9)",
-    // quick shrink
-    boxShadow: "0 0 15px rgba(255, 64, 129, 0.8)",
-    // glowing pink
-  },
-  videoContainer: { textAlign: "center" },
-  video: { width: "80%", borderRadius: "8px" },
-  videoBtn: {
-    margin: "0 5px",
-    padding: "8px 12px",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-    backgroundColor: "#ff4081",
-    color: "white",
-  },
-  videoWrapper: {
-    textAlign: "center",
-    position: "relative",
-    width: "80%",
-    margin: "10px auto",
-  },
-  video: {
-    width: "100%",
-    borderRadius: "8px",
   },
   prevBtn: {
     position: "absolute",
@@ -410,6 +335,25 @@ const styles = {
     padding: "10px",
     cursor: "pointer",
     fontSize: "18px",
+  },
+  audioBtn: {
+    position: "fixed",
+    bottom: "5px",
+    right: "20px",
+    backgroundColor: "#ff4081",
+    color: "white",
+    border: "none",
+    borderRadius: "30px",
+    padding: "10px 16px",
+    fontSize: "14px",
+    cursor: "pointer",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
+    zIndex: 4000,
+    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+  },
+  audioBtnActive: {
+    transform: "scale(0.9)",
+    boxShadow: "0 0 31px rgba(255, 64, 129, 0.8)",
   },
 };
 
