@@ -113,7 +113,7 @@ export const birthday = [
   {
     name: "Tamil",
     dob: "07 Jan 2000",
-    image: "tamil.jpg",
+    image: "tamil-1.jpg",
     color: "rgb(142,71,113)",
     path: "/tamil",
   },
