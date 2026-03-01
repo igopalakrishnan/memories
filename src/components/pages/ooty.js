@@ -14,22 +14,26 @@ const Ooty = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-1.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video1-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb1.jpg`,
+      showControls: true,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-2.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video1-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb2.jpg`,
+      showControls: true,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-3.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video1-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb3.jpg`,
+      showControls: false,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-4.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video1-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb4.jpg`,
+      showControls: true,
     },
     // Images
     ...Array.from({ length: 237 }, (_, i) => ({
@@ -210,7 +214,7 @@ const Ooty = () => {
               src={media2024[currentIndex].src}
               poster={media2024[currentIndex].poster}
               style={styles.modalMedia}
-              controls
+              controls={currentIndex !== 2}
               autoPlay
               muted
               preload="auto"
