@@ -1,14 +1,25 @@
-import React, { useState } from "react";
-import { Navbar, Container, Offcanvas, Nav } from "react-bootstrap";
+import React, { useState, useEffect, Suspense } from "react";
+import { Navbar, Container, Offcanvas } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
-import { birthday, other } from "../home/profiles";
+
+// Lazy load the profile lists
+const BirthdayList = React.lazy(() => import("./BirthdayList"));
+const OtherList = React.lazy(() => import("./OtherList"));
 
 const AppNavbar = () => {
   const [show, setShow] = useState(false);
+  const [loadContent, setLoadContent] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setLoadContent(false); // reset when closed
+  };
+  const handleShow = () => {
+    setShow(true);
+    // trigger async content load after shell opens
+    setTimeout(() => setLoadContent(true), 50);
+  };
 
   return (
     <Navbar className="navbar" bg="dark" variant="dark" expand={false}>
@@ -31,47 +42,17 @@ const AppNavbar = () => {
             </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <Offcanvas.Title id="offcanvasNavbarLabel"  className="mt-2 mb-3">
-              Birthday's Memories
-            </Offcanvas.Title>
-            <Nav className="flex-column">
-              {birthday.map((p, index) => (
-                <NavLink
-                  key={index}
-                  to={p.path}
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active" : "nav-link"
-                  }
-                  onClick={handleClose}
-                >
-                  <div className="profile-item">
-                    <span className="profile-name">{p.name}</span>
-                    <span className="profile-dob">{p.dob}</span>
-                  </div>
-                </NavLink>
-              ))}
-            </Nav>
+            {loadContent ? (
+              <Suspense fallback={<div>Loading lists...</div>}>
+                <h5 className="mt-2 mb-3">Birthday's Memories</h5>
+                <BirthdayList onClose={handleClose} />
 
-            <Offcanvas.Title id="offcanvasNavbarLabel" className="mt-5 mb-3">
-              Other's Memories
-            </Offcanvas.Title>
-            <Nav className="flex-column">
-              {other.map((p, index) => (
-                <NavLink
-                  key={index}
-                  to={p.path}
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active" : "nav-link"
-                  }
-                  onClick={handleClose}
-                >
-                  <div className="profile-item">
-                    <span className="profile-name">{p.name}</span>
-                    <span className="profile-dob">{p.dob}</span>
-                  </div>
-                </NavLink>
-              ))}
-            </Nav>
+                <h5 className="mt-5 mb-3">Other's Memories</h5>
+                <OtherList onClose={handleClose} />
+              </Suspense>
+            ) : (
+              <div>Preparing content...</div>
+            )}
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>
