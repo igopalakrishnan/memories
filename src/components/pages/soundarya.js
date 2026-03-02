@@ -13,13 +13,13 @@ const Soundarya = () => {
     // Videos
     {
       type: "video",
-      src: `${process.env.PUBLIC_URL}/gallery/video/abinash/2025-1.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2025/video1-thumb.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/video/soundarya/2025.mp4`,
+      poster: `${process.env.PUBLIC_URL}/gallery/soundarya/2025/video-thumb.jpg`,
     },
     // Images
-    ...Array.from({ length: 58 }, (_, i) => ({
+    ...Array.from({ length: 14 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/abinash/2025/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/soundarya/2025/img${i + 1}.jpg`,
     })),
   ];
 
@@ -97,7 +97,7 @@ const Soundarya = () => {
 
   return (
     <div>
-      <h3 className="ms-3 mt-4 mb-3">15 December 2025</h3>
+      <h3 className="ms-3 mt-4 mb-3">10 June 2025</h3>
       {/* ✅ Gallery */}
       <div style={styles.gallery}>
         {media2025.map((item, index) =>
