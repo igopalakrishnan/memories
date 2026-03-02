@@ -97,6 +97,10 @@ const Abinash = () => {
             err,
           );
         });
+        // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+      });
     }
   }, []);
 
