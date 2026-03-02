@@ -14,17 +14,17 @@ const Abinash = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/abinash/2025-1.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2025/video1-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2025/video1-thumb.webp`,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/abinash/2025-2.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2025/video1-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/abinash/2025/video1-thumb.webp`,
     },
     // Images
     ...Array.from({ length: 58 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/abinash/2025/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/abinash/2025/img${i + 1}.webp`,
     })),
   ];
 
