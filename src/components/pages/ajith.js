@@ -13,7 +13,7 @@ const Ajith = () => {
     // Images
     ...Array.from({ length: 46 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/ajith/2023/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/ajith/2023/img${i + 1}.webp`,
     })),
   ];
 
@@ -104,11 +104,11 @@ const Ajith = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -123,7 +123,7 @@ const Ajith = () => {
                 onClick={() => setCurrentIndex(index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -177,13 +177,13 @@ const Ajith = () => {
               alt="Enlarged"
               style={styles.modalMedia}
               onError={(e) => {
-                if (e.target.src.endsWith(".jpg")) {
+                if (e.target.src.endsWith(".webp")) {
                   e.target.src = media2025[currentIndex].src.replace(
-                    ".jpg",
+                    ".webp",
                     ".jpeg",
                   );
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -197,7 +197,7 @@ const Ajith = () => {
               muted
               preload="auto"
               onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
               }}
             />
           )}

@@ -14,7 +14,7 @@ const Abishek = () => {
     // Images
     ...Array.from({ length: 43 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/abishek/2025/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/abishek/2025/img${i + 1}.webp`,
     })),
   ];
 
@@ -105,11 +105,11 @@ const Abishek = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -124,7 +124,7 @@ const Abishek = () => {
                 onClick={() => setCurrentIndex(index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -178,13 +178,13 @@ const Abishek = () => {
               alt="Enlarged"
               style={styles.modalMedia}
               onError={(e) => {
-                if (e.target.src.endsWith(".jpg")) {
+                if (e.target.src.endsWith(".webp")) {
                   e.target.src = media2025[currentIndex].src.replace(
-                    ".jpg",
+                    ".webp",
                     ".jpeg",
                   );
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -198,7 +198,7 @@ const Abishek = () => {
               muted
               preload="auto"
               onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
               }}
             />
           )}

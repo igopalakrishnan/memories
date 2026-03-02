@@ -49,14 +49,14 @@ const Home = () => {
     profiles.map((p, index) => (
       <div key={index} className="homeprofile-card">
         <img
-          src={`${process.env.PUBLIC_URL}/gallery/profiles/${p.image || "placeholder.png"}`}
+          src={`${process.env.PUBLIC_URL}/gallery/profiles/${p.image || "placeholder.webp"}`}
           alt={p.name}
           className="homeprofile-img"
           onClick={() =>
-            setZoomImage(`${process.env.PUBLIC_URL}/gallery/profiles/${p.image || "placeholder.png"}`)
+            setZoomImage(`${process.env.PUBLIC_URL}/gallery/profiles/${p.image || "placeholder.webp"}`)
           }
           onError={(e) => {
-            e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+            e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
           }}
         />
         <div className="homeprofile-info">
@@ -95,7 +95,7 @@ const Home = () => {
             alt="Zoomed profile"
             className="zoom-img"
             onError={(e) => {
-              e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+              e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
             }}
           />
         </div>

@@ -1,11 +1,9 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { Navbar, Container, Offcanvas } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 import "./navbar.css";
 
-// Lazy load the profile lists
-const BirthdayList = React.lazy(() => import("./BirthdayList"));
-const OtherList = React.lazy(() => import("./OtherList"));
+// Lazy load the profile list component
+const ProfileList = React.lazy(() => import("./ProfileList"));
 
 const AppNavbar = () => {
   const [show, setShow] = useState(false);
@@ -13,8 +11,9 @@ const AppNavbar = () => {
 
   const handleClose = () => {
     setShow(false);
-    setLoadContent(false); // reset when closed
+    setLoadContent(false);
   };
+
   const handleShow = () => {
     setShow(true);
     // trigger async content load after shell opens
@@ -43,12 +42,8 @@ const AppNavbar = () => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             {loadContent ? (
-              <Suspense fallback={<div>Loading lists...</div>}>
-                <h5 className="mt-2 mb-3">Birthday's Memories</h5>
-                <BirthdayList onClose={handleClose} />
-
-                <h5 className="mt-5 mb-3">Other's Memories</h5>
-                <OtherList onClose={handleClose} />
+              <Suspense fallback={<div>Loading profiles...</div>}>
+                <ProfileList onClose={handleClose} />
               </Suspense>
             ) : (
               <div>Preparing content...</div>

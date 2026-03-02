@@ -12,11 +12,11 @@ const Nithya = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/nithya/2024.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/nithya/2024/video-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/nithya/2024/video-thumb.webp`,
     },
     ...Array.from({ length: 30 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/nithya/2024/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/nithya/2024/img${i + 1}.webp`,
     })),
   ];
   // Media for 2025
@@ -24,11 +24,11 @@ const Nithya = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/nithya/2025.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/nithya/2025/video-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/nithya/2025/video-thumb.webp`,
     },
     ...Array.from({ length: 68 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/nithya/2025/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/nithya/2025/img${i + 1}.webp`,
     })),
   ];
   // Media for 2026
@@ -36,11 +36,11 @@ const Nithya = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/nithya/2026.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/nithya/2026/video-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/nithya/2026/video-thumb.webp`,
     },
     ...Array.from({ length: 26 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/nithya/2026/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/nithya/2026/img${i + 1}.webp`,
     })),
   ];
 
@@ -126,11 +126,11 @@ const Nithya = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -145,7 +145,7 @@ const Nithya = () => {
                 onClick={() => setCurrentIndex(index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -165,11 +165,11 @@ const Nithya = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(media2024.length + index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -184,7 +184,7 @@ const Nithya = () => {
                 onClick={() => setCurrentIndex(media2024.length + index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -206,11 +206,11 @@ const Nithya = () => {
                 setCurrentIndex(media2024.length + media2025.length + index)
               }
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -227,7 +227,7 @@ const Nithya = () => {
                 }
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -277,13 +277,13 @@ const Nithya = () => {
               alt="Enlarged"
               style={styles.modalMedia}
               onError={(e) => {
-                if (e.target.src.endsWith(".jpg")) {
+                if (e.target.src.endsWith(".webp")) {
                   e.target.src = mediaAll[currentIndex].src.replace(
-                    ".jpg",
+                    ".webp",
                     ".jpeg",
                   );
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -297,7 +297,7 @@ const Nithya = () => {
               muted
               preload="auto"
               onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
               }}
             />
           )}

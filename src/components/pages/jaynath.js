@@ -12,11 +12,11 @@ const Jaynath = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/jaynath/2023.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/jaynath/2023/video-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/jaynath/2023/video-thumb.webp`,
     },
     ...Array.from({ length: 24 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/jaynath/2023/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/jaynath/2023/img${i + 1}.webp`,
     })),
   ];
   // Media for 2024
@@ -24,11 +24,11 @@ const Jaynath = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/jaynath/2024.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/jaynath/2024/video-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/jaynath/2024/video-thumb.webp`,
     },
     ...Array.from({ length: 48 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/jaynath/2024/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/jaynath/2024/img${i + 1}.webp`,
     })),
   ];
 
@@ -114,11 +114,11 @@ const Jaynath = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -133,7 +133,7 @@ const Jaynath = () => {
                 onClick={() => setCurrentIndex(index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -153,11 +153,11 @@ const Jaynath = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(media2023.length + index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -172,7 +172,7 @@ const Jaynath = () => {
                 onClick={() => setCurrentIndex(media2023.length + index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -222,13 +222,13 @@ const Jaynath = () => {
               alt="Enlarged"
               style={styles.modalMedia}
               onError={(e) => {
-                if (e.target.src.endsWith(".jpg")) {
+                if (e.target.src.endsWith(".webp")) {
                   e.target.src = mediaAll[currentIndex].src.replace(
-                    ".jpg",
+                    ".webp",
                     ".jpeg",
                   );
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -242,7 +242,7 @@ const Jaynath = () => {
               muted
               preload="auto"
               onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
               }}
             />
           )}

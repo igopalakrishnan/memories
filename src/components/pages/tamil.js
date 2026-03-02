@@ -12,11 +12,11 @@ const Tamil = () => {
      {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/tamil/2024.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2024/video-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2024/video-thumb.webp`,
     },
     ...Array.from({ length: 10 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/tamil/2024/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/tamil/2024/img${i + 1}.webp`,
     })),
   ];
   // Media for 2025
@@ -24,11 +24,11 @@ const Tamil = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/tamil/2025.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2025/video-thumb.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2025/video-thumb.webp`,
     },
     ...Array.from({ length: 45 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/tamil/2025/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/tamil/2025/img${i + 1}.webp`,
     })),
   ];
   // Media for 2026
@@ -36,16 +36,16 @@ const Tamil = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/tamil/2026-1.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2026/video-thumb1.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2026/video-thumb1.webp`,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/tamil/2026-2.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2026/video-thumb2.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/tamil/2026/video-thumb2.webp`,
     },
     ...Array.from({ length: 37 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/tamil/2026/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/tamil/2026/img${i + 1}.webp`,
     })),
   ];
 
@@ -131,11 +131,11 @@ const Tamil = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -150,7 +150,7 @@ const Tamil = () => {
                 onClick={() => setCurrentIndex(index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -170,11 +170,11 @@ const Tamil = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(media2024.length + index)}
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -189,7 +189,7 @@ const Tamil = () => {
                 onClick={() => setCurrentIndex(media2024.length + index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -211,11 +211,11 @@ const Tamil = () => {
                 setCurrentIndex(media2024.length + media2025.length + index)
               }
               onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -232,7 +232,7 @@ const Tamil = () => {
                 }
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -282,13 +282,13 @@ const Tamil = () => {
               alt="Enlarged"
               style={styles.modalMedia}
               onError={(e) => {
-                if (e.target.src.endsWith(".jpg")) {
+                if (e.target.src.endsWith(".webp")) {
                   e.target.src = mediaAll[currentIndex].src.replace(
-                    ".jpg",
+                    ".webp",
                     ".jpeg",
                   );
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -302,7 +302,7 @@ const Tamil = () => {
               muted
               preload="auto"
               onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
               }}
             />
           )}

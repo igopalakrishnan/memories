@@ -14,31 +14,31 @@ const Ooty = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-1.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb1.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb1.webp`,
       showControls: true,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-2.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb2.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb2.webp`,
       showControls: true,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-3.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb3.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb3.webp`,
       showControls: false,
     },
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/ooty/2024-4.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb4.jpg`,
+      poster: `${process.env.PUBLIC_URL}/gallery/ooty/2024/video-thumb4.webp`,
       showControls: true,
     },
     // Images
     ...Array.from({ length: 237 }, (_, i) => ({
       type: "image",
-      src: `${process.env.PUBLIC_URL}/gallery/ooty/2024/img${i + 1}.jpg`,
+      src: `${process.env.PUBLIC_URL}/gallery/ooty/2024/img${i + 1}.webp`,
     })),
   ];
 
@@ -129,11 +129,11 @@ const Ooty = () => {
               loading="lazy"
               onClick={() => setCurrentIndex(index)}
                onError={(e) => {
-                // fallback for jpg/jpeg
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = item.src.replace(".jpg", ".jpeg");
+                // fallback for webp/jpeg
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = item.src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -148,7 +148,7 @@ const Ooty = () => {
                 onClick={() => setCurrentIndex(index)}
                 // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
               <span style={styles.playIcon}>▶</span>
@@ -202,10 +202,10 @@ const Ooty = () => {
               alt="Enlarged"
               style={styles.modalMedia}
               onError={(e) => {
-                if (e.target.src.endsWith(".jpg")) {
-                  e.target.src = media2024[currentIndex].src.replace(".jpg", ".jpeg");
+                if (e.target.src.endsWith(".webp")) {
+                  e.target.src = media2024[currentIndex].src.replace(".webp", ".jpeg");
                 } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.png`;
+                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }
               }}
             />
@@ -219,7 +219,7 @@ const Ooty = () => {
               muted
               preload="auto"
               onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.png`;
+                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
               }}
             />
           )}
