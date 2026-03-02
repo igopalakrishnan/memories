@@ -94,6 +94,10 @@ const Siddiq = () => {
             err,
           );
         });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+      });
     }
   }, []);
   return (
@@ -108,6 +112,7 @@ const Siddiq = () => {
               alt={`2024 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
                 // fallback for webp/jpeg
@@ -147,6 +152,7 @@ const Siddiq = () => {
               alt={`2026 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(media2024.length + index)}
               onError={(e) => {
                 // fallback for webp/jpeg

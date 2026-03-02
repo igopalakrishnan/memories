@@ -10,7 +10,6 @@ const Kaviya = () => {
 
   // Unified media list: images + videos
   const media2024 = [
-    
     // Images
     ...Array.from({ length: 23 }, (_, i) => ({
       type: "image",
@@ -87,6 +86,10 @@ const Kaviya = () => {
             err,
           );
         });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+      });
     }
   }, []);
 
@@ -103,6 +106,7 @@ const Kaviya = () => {
               alt={`Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
                 // fallback for webp/jpeg

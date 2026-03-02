@@ -86,6 +86,10 @@ const Ajith = () => {
             err,
           );
         });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+      });
     }
   }, []);
 
@@ -102,6 +106,7 @@ const Ajith = () => {
               alt={`Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
                 // fallback for webp/jpeg

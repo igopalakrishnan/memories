@@ -98,6 +98,10 @@ const Jaynath = () => {
             err,
           );
         });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+      });
     }
   }, []);
   return (
@@ -112,6 +116,7 @@ const Jaynath = () => {
               alt={`2023 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
                 // fallback for webp/jpeg
@@ -151,6 +156,7 @@ const Jaynath = () => {
               alt={`2024 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(media2023.length + index)}
               onError={(e) => {
                 // fallback for webp/jpeg

@@ -9,7 +9,7 @@ const Tamil = () => {
 
   // Media for 2024
   const media2024 = [
-     {
+    {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/tamil/2024.mp4`,
       poster: `${process.env.PUBLIC_URL}/gallery/tamil/2024/video-thumb.webp`,
@@ -115,6 +115,10 @@ const Tamil = () => {
             err,
           );
         });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+      });
     }
   }, []);
   return (
@@ -129,6 +133,7 @@ const Tamil = () => {
               alt={`2024 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
                 // fallback for webp/jpeg
@@ -168,6 +173,7 @@ const Tamil = () => {
               alt={`2026 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(media2024.length + index)}
               onError={(e) => {
                 // fallback for webp/jpeg
@@ -207,6 +213,7 @@ const Tamil = () => {
               alt={`2026 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() =>
                 setCurrentIndex(media2024.length + media2025.length + index)
               }

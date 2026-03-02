@@ -97,7 +97,7 @@ const Abinash = () => {
             err,
           );
         });
-        // When audio finishes, reset button to Play
+      // When audio finishes, reset button to Play
       audio.addEventListener("ended", () => {
         setIsAudioPlaying(false);
       });
@@ -117,8 +117,9 @@ const Abinash = () => {
               alt={`Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(index)}
-               onError={(e) => {
+              onError={(e) => {
                 // fallback for webp/jpeg
                 if (e.target.src.endsWith(".webp")) {
                   e.target.src = item.src.replace(".webp", ".jpeg");
@@ -193,7 +194,10 @@ const Abinash = () => {
               style={styles.modalMedia}
               onError={(e) => {
                 if (e.target.src.endsWith(".webp")) {
-                  e.target.src = media2025[currentIndex].src.replace(".webp", ".jpeg");
+                  e.target.src = media2025[currentIndex].src.replace(
+                    ".webp",
+                    ".jpeg",
+                  );
                 } else {
                   e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
                 }

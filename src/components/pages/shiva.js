@@ -48,7 +48,6 @@ const Shiva = () => {
   ];
   // Media for 2025
   const media2025 = [
-    
     ...Array.from({ length: 79 }, (_, i) => ({
       type: "image",
       src: `${process.env.PUBLIC_URL}/gallery/shiva/2025/img${i + 1}.webp`,
@@ -121,6 +120,10 @@ const Shiva = () => {
             err,
           );
         });
+      // When audio finishes, reset button to Play
+      audio.addEventListener("ended", () => {
+        setIsAudioPlaying(false);
+      });
     }
   }, []);
   return (
@@ -135,6 +138,7 @@ const Shiva = () => {
               alt={`2023 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(index)}
               onError={(e) => {
                 // fallback for webp/jpeg
@@ -174,6 +178,7 @@ const Shiva = () => {
               alt={`2024 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
+              decoding="async"
               onClick={() => setCurrentIndex(media2023.length + index)}
               onError={(e) => {
                 // fallback for webp/jpeg
@@ -213,7 +218,10 @@ const Shiva = () => {
               alt={`2024 Gallery ${index}`}
               style={styles.image}
               loading="lazy"
-              onClick={() => setCurrentIndex(media2023.length + media2024.length+ index)}
+              decoding="async"
+              onClick={() =>
+                setCurrentIndex(media2023.length + media2024.length + index)
+              }
               onError={(e) => {
                 // fallback for webp/jpeg
                 if (e.target.src.endsWith(".webp")) {
@@ -231,7 +239,9 @@ const Shiva = () => {
                 style={styles.image}
                 muted
                 preload="none"
-                onClick={() => setCurrentIndex(media2023.length + media2024.length + index)}
+                onClick={() =>
+                  setCurrentIndex(media2023.length + media2024.length + index)
+                }
                 // fallback for poster
                 onError={(e) => {
                   e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
