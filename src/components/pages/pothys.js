@@ -95,124 +95,129 @@ const Pothys = () => {
   }, []);
 
   return (
-    <div>
-      <h3 className="ms-3 mt-4 mb-3">2024</h3>
-      {/* ✅ Gallery */}
-      <div style={styles.gallery}>
-        {media2024.map((item, index) =>
-          item.type === "image" ? (
-            <img
-              key={index}
-              src={item.src}
-              alt={`Gallery ${index}`}
-              style={styles.image}
-              loading="lazy"
-              decoding="async"
-              onClick={() => setCurrentIndex(index)}
-              onError={(e) => {
-                // fallback for webp/jpeg
-                if (e.target.src.endsWith(".webp")) {
-                  e.target.src = item.src.replace(".webp", ".jpeg");
-                } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
-                }
-              }}
-            />
-          ) : (
-            <div key={index} style={{ position: "relative" }}>
-              <video
+    <div style={{ display: "flex" }}>
+      <div style={{ marginLeft: "70px", flex: 1 }} className="p-3 pt-1">
+        <h3 className="ms-3 mt-4 mb-3">2024</h3>
+        {/* ✅ Gallery */}
+        <div style={styles.gallery}>
+          {media2024.map((item, index) =>
+            item.type === "image" ? (
+              <img
+                key={index}
                 src={item.src}
-                poster={item.poster}
+                alt={`Gallery ${index}`}
                 style={styles.image}
-                muted
-                preload="none"
+                loading="lazy"
+                decoding="async"
                 onClick={() => setCurrentIndex(index)}
-                // fallback for poster
+                onError={(e) => {
+                  // fallback for webp/jpeg
+                  if (e.target.src.endsWith(".webp")) {
+                    e.target.src = item.src.replace(".webp", ".jpeg");
+                  } else {
+                    e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
+                  }
+                }}
+              />
+            ) : (
+              <div key={index} style={{ position: "relative" }}>
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  style={styles.image}
+                  muted
+                  preload="none"
+                  onClick={() => setCurrentIndex(index)}
+                  // fallback for poster
+                  onError={(e) => {
+                    e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
+                  }}
+                />
+                <span style={styles.playIcon}>▶</span>
+              </div>
+            ),
+          )}
+        </div>
+
+        {/* Floating audio button */}
+        <button
+          style={{
+            ...styles.audioBtn,
+            ...(isPressed ? styles.audioBtnActive : {}),
+          }}
+          onMouseDown={() => setIsPressed(true)}
+          onMouseUp={() => setIsPressed(false)}
+          onMouseLeave={() => setIsPressed(false)}
+          onTouchStart={() => setIsPressed(true)}
+          onTouchEnd={() => setIsPressed(false)}
+          onClick={toggleAudio}
+        >
+          {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+        </button>
+
+        {/* Hidden audio element */}
+        <audio
+          ref={audioRef}
+          src={`${process.env.PUBLIC_URL}/gallery/audio/.mp3`}
+        />
+
+        {/* Unified Modal */}
+        {currentIndex !== null && (
+          <div
+            style={styles.modal}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setCurrentIndex(null);
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <button
+              style={styles.closeBtn}
+              onClick={() => setCurrentIndex(null)}
+            >
+              ✖
+            </button>
+            <button style={styles.prevBtn} onClick={handlePrev}>
+              ◀
+            </button>
+
+            {media2024[currentIndex].type === "image" ? (
+              <img
+                src={media2024[currentIndex].src}
+                alt="Enlarged"
+                style={styles.modalMedia}
+                onError={(e) => {
+                  if (e.target.src.endsWith(".webp")) {
+                    e.target.src = media2024[currentIndex].src.replace(
+                      ".webp",
+                      ".jpeg",
+                    );
+                  } else {
+                    e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
+                  }
+                }}
+              />
+            ) : (
+              <video
+                src={media2024[currentIndex].src}
+                poster={media2024[currentIndex].poster}
+                style={styles.modalMedia}
+                controls={currentIndex !== 2}
+                autoPlay
+                muted
+                preload="auto"
                 onError={(e) => {
                   e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
-              <span style={styles.playIcon}>▶</span>
-            </div>
-          ),
+            )}
+
+            <button style={styles.nextBtn} onClick={handleNext}>
+              ▶
+            </button>
+          </div>
         )}
       </div>
-
-      {/* Floating audio button */}
-      <button
-        style={{
-          ...styles.audioBtn,
-          ...(isPressed ? styles.audioBtnActive : {}),
-        }}
-        onMouseDown={() => setIsPressed(true)}
-        onMouseUp={() => setIsPressed(false)}
-        onMouseLeave={() => setIsPressed(false)}
-        onTouchStart={() => setIsPressed(true)}
-        onTouchEnd={() => setIsPressed(false)}
-        onClick={toggleAudio}
-      >
-        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
-      </button>
-
-      {/* Hidden audio element */}
-      <audio
-        ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/.mp3`}
-      />
-
-      {/* Unified Modal */}
-      {currentIndex !== null && (
-        <div
-          style={styles.modal}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setCurrentIndex(null);
-          }}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <button style={styles.closeBtn} onClick={() => setCurrentIndex(null)}>
-            ✖
-          </button>
-          <button style={styles.prevBtn} onClick={handlePrev}>
-            ◀
-          </button>
-
-          {media2024[currentIndex].type === "image" ? (
-            <img
-              src={media2024[currentIndex].src}
-              alt="Enlarged"
-              style={styles.modalMedia}
-              onError={(e) => {
-                if (e.target.src.endsWith(".webp")) {
-                  e.target.src = media2024[currentIndex].src.replace(
-                    ".webp",
-                    ".jpeg",
-                  );
-                } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
-                }
-              }}
-            />
-          ) : (
-            <video
-              src={media2024[currentIndex].src}
-              poster={media2024[currentIndex].poster}
-              style={styles.modalMedia}
-              controls={currentIndex !== 2}
-              autoPlay
-              muted
-              preload="auto"
-              onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
-              }}
-            />
-          )}
-
-          <button style={styles.nextBtn} onClick={handleNext}>
-            ▶
-          </button>
-        </div>
-      )}
     </div>
   );
 };
@@ -226,8 +231,8 @@ const styles = {
     marginBottom: "20px",
   },
   image: {
-    width: "70px",
-    height: "70px",
+    width: "65px",
+    height: "65px",
     objectFit: "cover",
     borderRadius: "8px",
     cursor: "pointer",

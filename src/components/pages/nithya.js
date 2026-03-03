@@ -117,202 +117,207 @@ const Nithya = () => {
     }
   }, []);
   return (
-    <div>
-      <h3 className="ms-3 mt-4 mb-3">05 February 2024</h3>
-      <div style={styles.gallery}>
-        {media2024.map((item, index) =>
-          item.type === "image" ? (
-            <img
-              key={index}
-              src={item.src}
-              alt={`2024 Gallery ${index}`}
-              style={styles.image}
-              loading="lazy"
-              decoding="async"
-              onClick={() => setCurrentIndex(index)}
-              onError={(e) => {
-                // fallback for webp/jpeg
-                if (e.target.src.endsWith(".webp")) {
-                  e.target.src = item.src.replace(".webp", ".jpeg");
-                } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
-                }
-              }}
-            />
-          ) : (
-            <div key={index} style={{ position: "relative" }}>
-              <video
+    <div style={{ display: "flex" }}>
+      <div style={{ marginLeft: "70px", flex: 1 }} className="p-3 pt-1">
+        <h3 className="ms-3 mt-4 mb-3">05 February 2024</h3>
+        <div style={styles.gallery}>
+          {media2024.map((item, index) =>
+            item.type === "image" ? (
+              <img
+                key={index}
                 src={item.src}
-                poster={item.poster}
+                alt={`2024 Gallery ${index}`}
                 style={styles.image}
-                muted
-                preload="none"
+                loading="lazy"
+                decoding="async"
                 onClick={() => setCurrentIndex(index)}
-                // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
+                  // fallback for webp/jpeg
+                  if (e.target.src.endsWith(".webp")) {
+                    e.target.src = item.src.replace(".webp", ".jpeg");
+                  } else {
+                    e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
+                  }
                 }}
               />
-              <span style={styles.playIcon}>▶</span>
-            </div>
-          ),
-        )}
-      </div>
-      <h3 className="ms-3 mt-4 mb-3">05 February 2025</h3>
-      <div style={styles.gallery}>
-        {media2025.map((item, index) =>
-          item.type === "image" ? (
-            <img
-              key={index}
-              src={item.src}
-              alt={`2026 Gallery ${index}`}
-              style={styles.image}
-              loading="lazy"
-              decoding="async"
-              onClick={() => setCurrentIndex(media2024.length + index)}
-              onError={(e) => {
-                // fallback for webp/jpeg
-                if (e.target.src.endsWith(".webp")) {
-                  e.target.src = item.src.replace(".webp", ".jpeg");
-                } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
-                }
-              }}
-            />
-          ) : (
-            <div key={index} style={{ position: "relative" }}>
-              <video
+            ) : (
+              <div key={index} style={{ position: "relative" }}>
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  style={styles.image}
+                  muted
+                  preload="none"
+                  onClick={() => setCurrentIndex(index)}
+                  // fallback for poster
+                  onError={(e) => {
+                    e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
+                  }}
+                />
+                <span style={styles.playIcon}>▶</span>
+              </div>
+            ),
+          )}
+        </div>
+        <h3 className="ms-3 mt-4 mb-3">05 February 2025</h3>
+        <div style={styles.gallery}>
+          {media2025.map((item, index) =>
+            item.type === "image" ? (
+              <img
+                key={index}
                 src={item.src}
-                poster={item.poster}
+                alt={`2026 Gallery ${index}`}
                 style={styles.image}
-                muted
-                preload="none"
+                loading="lazy"
+                decoding="async"
                 onClick={() => setCurrentIndex(media2024.length + index)}
-                // fallback for poster
                 onError={(e) => {
-                  e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
+                  // fallback for webp/jpeg
+                  if (e.target.src.endsWith(".webp")) {
+                    e.target.src = item.src.replace(".webp", ".jpeg");
+                  } else {
+                    e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
+                  }
                 }}
               />
-              <span style={styles.playIcon}>▶</span>
-            </div>
-          ),
-        )}
-      </div>
-      <h3 className="ms-3 mt-4 mb-3">05 February 2026</h3>
-      <div style={styles.gallery}>
-        {media2026.map((item, index) =>
-          item.type === "image" ? (
-            <img
-              key={index}
-              src={item.src}
-              alt={`2026 Gallery ${index}`}
-              style={styles.image}
-              loading="lazy"
-              decoding="async"
-              onClick={() =>
-                setCurrentIndex(media2024.length + media2025.length + index)
-              }
-              onError={(e) => {
-                // fallback for webp/jpeg
-                if (e.target.src.endsWith(".webp")) {
-                  e.target.src = item.src.replace(".webp", ".jpeg");
-                } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
-                }
-              }}
-            />
-          ) : (
-            <div key={index} style={{ position: "relative" }}>
-              <video
+            ) : (
+              <div key={index} style={{ position: "relative" }}>
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  style={styles.image}
+                  muted
+                  preload="none"
+                  onClick={() => setCurrentIndex(media2024.length + index)}
+                  // fallback for poster
+                  onError={(e) => {
+                    e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
+                  }}
+                />
+                <span style={styles.playIcon}>▶</span>
+              </div>
+            ),
+          )}
+        </div>
+        <h3 className="ms-3 mt-4 mb-3">05 February 2026</h3>
+        <div style={styles.gallery}>
+          {media2026.map((item, index) =>
+            item.type === "image" ? (
+              <img
+                key={index}
                 src={item.src}
-                poster={item.poster}
+                alt={`2026 Gallery ${index}`}
                 style={styles.image}
-                muted
-                preload="none"
+                loading="lazy"
+                decoding="async"
                 onClick={() =>
                   setCurrentIndex(media2024.length + media2025.length + index)
                 }
-                // fallback for poster
+                onError={(e) => {
+                  // fallback for webp/jpeg
+                  if (e.target.src.endsWith(".webp")) {
+                    e.target.src = item.src.replace(".webp", ".jpeg");
+                  } else {
+                    e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
+                  }
+                }}
+              />
+            ) : (
+              <div key={index} style={{ position: "relative" }}>
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  style={styles.image}
+                  muted
+                  preload="none"
+                  onClick={() =>
+                    setCurrentIndex(media2024.length + media2025.length + index)
+                  }
+                  // fallback for poster
+                  onError={(e) => {
+                    e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
+                  }}
+                />
+                <span style={styles.playIcon}>▶</span>
+              </div>
+            ),
+          )}
+        </div>
+        {/* Floating audio button */}
+        <button
+          style={{
+            ...styles.audioBtn,
+            ...(isPressed ? styles.audioBtnActive : {}),
+          }}
+          onMouseDown={() => setIsPressed(true)}
+          onMouseUp={() => setIsPressed(false)}
+          onMouseLeave={() => setIsPressed(false)}
+          onTouchStart={() => setIsPressed(true)}
+          onTouchEnd={() => setIsPressed(false)}
+          onClick={toggleAudio}
+        >
+          {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
+        </button>
+        {/* Hidden audio element */}
+        <audio
+          ref={audioRef}
+          src={`${process.env.PUBLIC_URL}/gallery/audio/nithya.mp3`}
+        />
+        {/* Unified Modal */}
+        {currentIndex !== null && (
+          <div
+            style={styles.modal}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setCurrentIndex(null);
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            <button
+              style={styles.closeBtn}
+              onClick={() => setCurrentIndex(null)}
+            >
+              ✖
+            </button>
+            <button style={styles.prevBtn} onClick={handlePrev}>
+              ◀
+            </button>
+            {mediaAll[currentIndex].type === "image" ? (
+              <img
+                src={mediaAll[currentIndex].src}
+                alt="Enlarged"
+                style={styles.modalMedia}
+                onError={(e) => {
+                  if (e.target.src.endsWith(".webp")) {
+                    e.target.src = mediaAll[currentIndex].src.replace(
+                      ".webp",
+                      ".jpeg",
+                    );
+                  } else {
+                    e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
+                  }
+                }}
+              />
+            ) : (
+              <video
+                src={mediaAll[currentIndex].src}
+                poster={mediaAll[currentIndex].poster}
+                style={styles.modalMedia}
+                controls
+                autoPlay
+                muted
+                preload="auto"
                 onError={(e) => {
                   e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
                 }}
               />
-              <span style={styles.playIcon}>▶</span>
-            </div>
-          ),
+            )}
+            <button style={styles.nextBtn} onClick={handleNext}>
+              ▶
+            </button>
+          </div>
         )}
       </div>
-      {/* Floating audio button */}
-      <button
-        style={{
-          ...styles.audioBtn,
-          ...(isPressed ? styles.audioBtnActive : {}),
-        }}
-        onMouseDown={() => setIsPressed(true)}
-        onMouseUp={() => setIsPressed(false)}
-        onMouseLeave={() => setIsPressed(false)}
-        onTouchStart={() => setIsPressed(true)}
-        onTouchEnd={() => setIsPressed(false)}
-        onClick={toggleAudio}
-      >
-        {isAudioPlaying ? "⏸ Pause Music" : "▶ Play Music"}
-      </button>
-      {/* Hidden audio element */}
-      <audio
-        ref={audioRef}
-        src={`${process.env.PUBLIC_URL}/gallery/audio/nithya.mp3`}
-      />
-      {/* Unified Modal */}
-      {currentIndex !== null && (
-        <div
-          style={styles.modal}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setCurrentIndex(null);
-          }}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <button style={styles.closeBtn} onClick={() => setCurrentIndex(null)}>
-            ✖
-          </button>
-          <button style={styles.prevBtn} onClick={handlePrev}>
-            ◀
-          </button>
-          {mediaAll[currentIndex].type === "image" ? (
-            <img
-              src={mediaAll[currentIndex].src}
-              alt="Enlarged"
-              style={styles.modalMedia}
-              onError={(e) => {
-                if (e.target.src.endsWith(".webp")) {
-                  e.target.src = mediaAll[currentIndex].src.replace(
-                    ".webp",
-                    ".jpeg",
-                  );
-                } else {
-                  e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
-                }
-              }}
-            />
-          ) : (
-            <video
-              src={mediaAll[currentIndex].src}
-              poster={mediaAll[currentIndex].poster}
-              style={styles.modalMedia}
-              controls
-              autoPlay
-              muted
-              preload="auto"
-              onError={(e) => {
-                e.target.poster = `${process.env.PUBLIC_URL}/gallery/profiles/video-placeholder.webp`;
-              }}
-            />
-          )}
-          <button style={styles.nextBtn} onClick={handleNext}>
-            ▶
-          </button>
-        </div>
-      )}
     </div>
   );
 };
@@ -326,8 +331,8 @@ const styles = {
     marginBottom: "20px",
   },
   image: {
-    width: "70px",
-    height: "70px",
+    width: "65px",
+    height: "65px",
     objectFit: "cover",
     borderRadius: "8px",
     cursor: "pointer",

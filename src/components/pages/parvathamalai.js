@@ -110,7 +110,8 @@ const Parvathamalai = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ display: "flex" }}>
+      <div style={{ marginLeft: "70px", flex: 1 }} className="p-3 pt-1">
       <h3 className="ms-3 mt-4 mb-3">2025</h3>
       {/* ✅ Gallery */}
       <div style={styles.gallery}>
@@ -229,6 +230,7 @@ const Parvathamalai = () => {
         </div>
       )}
     </div>
+    </div>
   );
 };
 
@@ -241,8 +243,8 @@ const styles = {
     marginBottom: "20px",
   },
   image: {
-    width: "70px",
-    height: "70px",
+    width: "65px",
+    height: "65px",
     objectFit: "cover",
     borderRadius: "8px",
     cursor: "pointer",

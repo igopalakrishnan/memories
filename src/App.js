@@ -1,5 +1,10 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./components/home/home";
 import AppNavbar from "./components/navbar/navbar";
 import Gokul from "./components/pages/gokul";
@@ -25,38 +30,52 @@ import Ooty from "./components/pages/ooty";
 import Parvathamalai from "./components/pages/parvathamalai";
 import Pothys from "./components/pages/pothys";
 import Thiruvannamalai from "./components/pages/thiruvannamalai";
+import Sidebar from "./components/sidebar/sidebar";
+
+// ✅ Wrapper so we can use useLocation
+function Layout() {
+  const location = useLocation();
+
+  return (
+    <>
+      <AppNavbar />
+      {/* Show Sidebar everywhere except Home */}
+      {location.pathname !== "/" && <Sidebar />}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/abinash" element={<Abinash />} />
+        <Route path="/abishek" element={<Abishek />} />
+        <Route path="/ajith" element={<Ajith />} />
+        <Route path="/gokul" element={<Gokul />} />
+        <Route path="/jaynath" element={<Jaynath />} />
+        <Route path="/kalai" element={<Kalai />} />
+        <Route path="/kavin" element={<Kavin />} />
+        <Route path="/kaviya" element={<Kaviya />} />
+        <Route path="/kishore" element={<Kishore />} />
+        <Route path="/manoj" element={<Manoj />} />
+        <Route path="/nithya" element={<Nithya />} />
+        <Route path="/sathish" element={<Sathish />} />
+        <Route path="/shiva" element={<Shiva />} />
+        <Route path="/siddiq" element={<Siddiq />} />
+        <Route path="/soundarya" element={<Soundarya />} />
+        <Route path="/tamil" element={<Tamil />} />
+        <Route path="/vicky" element={<Vicky />} />
+        <Route path="/vinoth" element={<Vinoth />} />
+        <Route path="/kfc" element={<Kfc />} />
+        <Route path="/ooty" element={<Ooty />} />
+        <Route path="/parvathamalai" element={<Parvathamalai />} />
+        <Route path="/pothys" element={<Pothys />} />
+        <Route path="/thiruvannamalai" element={<Thiruvannamalai />} />
+      </Routes>
+    </>
+  );
+}
 
 function App() {
   return (
     <Router>
-      <AppNavbar />
-      <Routes>
-         <Route path="/" element={<Home />} />
-         <Route path="/abinash" element={<Abinash />} />
-         <Route path="/abishek" element={<Abishek />} />
-         <Route path="/ajith" element={<Ajith />} />
-         <Route path="/gokul" element={<Gokul />} />
-         <Route path="/jaynath" element={<Jaynath />} />
-         <Route path="/kalai" element={<Kalai />} />
-         <Route path="/kavin" element={<Kavin />} />
-         <Route path="/kaviya" element={<Kaviya />} />
-         <Route path="/kishore" element={<Kishore />} />
-         <Route path="/manoj" element={<Manoj />} />
-         <Route path="/nithya" element={<Nithya />} />
-         <Route path="/sathish" element={<Sathish />} />
-         <Route path="/shiva" element={<Shiva />} />
-         <Route path="/siddiq" element={<Siddiq />} />
-         <Route path="/soundarya" element={<Soundarya />} />
-         <Route path="/tamil" element={<Tamil />} />
-         <Route path="/vicky" element={<Vicky />} />
-         <Route path="/vinoth" element={<Vinoth />} />
-
-         <Route path="/kfc" element={<Kfc />} />
-         <Route path="/ooty" element={<Ooty />} />
-         <Route path="/parvathamalai" element={<Parvathamalai />} />
-         <Route path="/pothys" element={<Pothys />} />
-         <Route path="/thiruvannamalai" element={<Thiruvannamalai />} />
-      </Routes>
+      <Layout />
     </Router>
   );
 }

@@ -1,71 +1,48 @@
+:root {
+  --navbar-height: 64px; /* single source of truth */
+}
+
 .navbar {
   position: sticky !important;
-  top: 0; /* sticks to the very top */
-  z-index: 1000 !important; /* keeps it above other elements */
-  background: #fff; /* ensure background covers content behind */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
-}
-
-.nav-link {
-  color: #ccc;
-  text-decoration: none;
-  padding: 10px 12px;
-  border-bottom: 1px solid #444 !important; /* line between items */
-}
-
-.nav-link:hover {
-  color: #1d6b05 !important;
-}
-
-.nav-link.active {
-  color: #0d6efd !important;
-  font-weight: bold;
-}
-
-.navbar-brand i {
-  margin-right: 8px;
-  color: #dfdfdf; /* Bootstrap primary blue */
-}
-
-.offcanvas-body {
-  padding-top: 10px;
-}
-.offcanvas-dark {
-  background-color: #212529 !important; /* Bootstrap dark */
-  color: white !important;
-  transform: translateX(100%);
-  transition: transform 0.25s ease-out;
-}
-
-.offcanvas-dark.show {
-  transform: translateX(0);
-}
-
-.offcanvas-dark .btn-close {
-  filter: invert(
-    1
-  ); /* makes the default white icon visible on dark background */
-}
-
-.offcanvas-dark .btn-close:hover {
-  filter: invert(0.5); /* slightly dimmed on hover */
-}
-
-.profile-item {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--navbar-height);
+  background-color: #3c3c3c;
+  color: #fff;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
+  padding-left: 80px !important;
+  height: 64px; /* adjust if needed */
+  z-index: 2000; /* always above sidebar */
 }
 
-.profile-name {
+.navbar-icon {
+  color: #fff;
+  font-size: 1.4rem;
+  text-decoration: none;
+  margin-left: -63px; /* ✅ shift back so icon aligns with sidebar */
+}
+
+
+.navbar .navbar-brand {
   font-weight: bold;
+  font-size: 1.2rem;
   color: #fff;
 }
 
-.profile-dob {
-  font-size: 0.9rem;
-  color: #dfdfdf;
-  background-color: #3f8cff;
-  border: 1.5px solid #3f8cff;
-  border-radius: 10px;
+.navbar-links {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-links a:hover {
+  text-decoration: underline;
 }
