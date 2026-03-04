@@ -1,67 +1,122 @@
-import React, { useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
-import { basePath, birthday, other } from "../home/profiles";
-import "./sidebar.css";
+import React, { useState, useEffect } from "react";
+import "./sidebarDial.css";
 
-const Sidebar = () => {
+const profiles = [
+  {
+    name: "Abinash",
+    dob: "01 Jan",
+    color: "#1877f2",
+    image: "/gallery/profiles/abinash.webp",
+  },
+  {
+    name: "Abishek",
+    dob: "02 Feb",
+    color: "#1da1f2",
+    image: "/gallery/profiles/abishek.webp",
+  },
+  {
+    name: "Ajith",
+    dob: "03 Mar",
+    color: "#e60023",
+    image: "/gallery/profiles/ajith.webp",
+  },
+  {
+    name: "Kalai",
+    dob: "04 Apr",
+    color: "#0a66c2",
+    image: "/gallery/profiles/kalai.webp",
+  },
+  {
+    name: "Kavin",
+    dob: "05 May",
+    color: "#ff4500",
+    image: "/gallery/profiles/kavin.webp",
+  },
+  {
+    name: "Mani",
+    dob: "06 Jun",
+    color: "#ff9900",
+    image: "/gallery/profiles/mani.webp",
+  },
+  {
+    name: "Ravi",
+    dob: "07 Jul",
+    color: "#009688",
+    image: "/gallery/profiles/ravi.webp",
+  },
+  {
+    name: "Suresh",
+    dob: "08 Aug",
+    color: "#673ab7",
+    image: "/gallery/profiles/suresh.webp",
+  },
+  // add more profiles...
+];
+
+const SidebarDial = () => {
+  const [open, setOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
-  const [position, setPosition] = useState({ top: 0 });
+  const [rotation, setRotation] = useState(0);
+  const [paused, setPaused] = useState(false);
 
-  const handleClick = (event, profile) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    setPosition({ top: rect.top + window.scrollY + rect.height / 2 });
-    setSelectedProfile(profile);
+  const angleGap = 45; // ✅ fixed gap between profiles
+  const radius = 100; // ✅ fixed arc radius
 
-    // Auto-hide after 3s
-    setTimeout(() => setSelectedProfile(null), 3000);
-  };
-
-  const renderSection = (profiles, prefix) =>
-    profiles.map((p, index) => (
-      <div key={`${prefix}-${index}`} className="sidebar-item">
-        <div
-          className="icon-circle"
-        //   style={{ backgroundColor: p.color }}
-          onClick={(e) => handleClick(e, p)}
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/gallery/profiles/${p.image}`}
-            alt={p.name}
-            className="profile-icon"
-            onError={(e) => {
-              e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
-            }}
-          />
-        </div>
-      </div>
-    ));
+  // Auto-rotate carousel
+  useEffect(() => {
+    let interval;
+    if (open && !paused) {
+      interval = setInterval(() => {
+        setRotation((prev) => prev + 5);
+      }, 200);
+    }
+    return () => clearInterval(interval);
+  }, [open, paused]);
 
   return (
-    <>
-      <div className="sidebar">
-        <div className="sidebar-section mb-5">
-          {renderSection(birthday, "birthday")}
-        </div>
-        <div className="sidebar-section">{renderSection(other, "other")}</div>
+    <div className="dial-container">
+      {/* Left-edge anchor icon */}
+      <div
+        className="main-icon"
+        onClick={() => setOpen(!open)}
+        style={{ backgroundColor: "#444" }}
+      >
+        <i className="bi bi-people-fill"></i>
       </div>
 
-      {/* Floating overlay outside sidebar */}
-      {selectedProfile && (
-        <div
-          className="profile-overlay-floating"
-          style={{
-            backgroundColor: selectedProfile.color,
-            top: position.top,
-          }}
-        >
-          <NavLink to={selectedProfile.path} className="profile-name-link">
-            {selectedProfile.name}
-          </NavLink>
-          <span className="profile-dob">{selectedProfile.dob}</span>
+      {/* Half-circle dial expanding outward to the right */}
+      {open && (
+        <div className="dial">
+          {profiles.map((p, index) => (
+            <div
+              key={index}
+              className="profile-circle"
+              style={{
+                backgroundColor: p.color,
+                transform: `rotate(${rotation + index * angleGap}deg) translateX(${radius}px) rotate(-${rotation + index * angleGap}deg)`,
+              }}
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+              onClick={() => setSelectedProfile(p)}
+            >
+              <img src={p.image} alt={p.name} />
+            </div>
+          ))}
         </div>
       )}
-    </>
+
+      {/* Pill overlay with details */}
+      {selectedProfile && (
+        <div
+          className="profile-pill"
+          style={{ backgroundColor: selectedProfile.color }}
+        >
+          <span className="pill-name">{selectedProfile.name}</span>
+          <span className="pill-dob">{selectedProfile.dob}</span>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default Sidebar;
+export default SidebarDial;
