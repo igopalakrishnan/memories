@@ -104,7 +104,7 @@ const Abinash = () => {
   }, []);
 
   return (
-    <div className="m-3">
+    <div className="ms-4 me-1">
       <h3 className="mt-4 mb-3">15 December 2025</h3>
       {/* ✅ Gallery */}
       <div style={styles.gallery}>
