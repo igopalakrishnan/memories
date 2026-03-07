@@ -31,6 +31,12 @@ import Parvathamalai from "./components/pages/parvathamalai";
 import Pothys from "./components/pages/pothys";
 import Thiruvannamalai from "./components/pages/thiruvannamalai";
 import Sidebar from "./components/sidebar/sidebar";
+import Hari from "./components/pages/hari";
+import Sindhu from "./components/pages/sindhu";
+import Gopika from "./components/pages/gopika";
+import ALen from "./components/pages/alen";
+import ScrollToTop from "./scrollToTop";
+import Mani from "./components/pages/mani";
 
 // ✅ Wrapper so we can use useLocation
 function Layout() {
@@ -38,6 +44,7 @@ function Layout() {
 
   return (
     <>
+      <ScrollToTop />
       <AppNavbar />
       {/* Show Sidebar everywhere except Home */}
       {location.pathname !== "/" && <Sidebar />}
@@ -47,17 +54,22 @@ function Layout() {
         <Route path="/abinash" element={<Abinash />} />
         <Route path="/abishek" element={<Abishek />} />
         <Route path="/ajith" element={<Ajith />} />
+        <Route path="/alen" element={<ALen />} />
         <Route path="/gokul" element={<Gokul />} />
+        <Route path="/gopika" element={<Gopika />} />
+        <Route path="/hari" element={<Hari />} />
         <Route path="/jaynath" element={<Jaynath />} />
         <Route path="/kalai" element={<Kalai />} />
         <Route path="/kavin" element={<Kavin />} />
         <Route path="/kaviya" element={<Kaviya />} />
         <Route path="/kishore" element={<Kishore />} />
+        <Route path="/mani" element={<Mani />} />
         <Route path="/manoj" element={<Manoj />} />
         <Route path="/nithya" element={<Nithya />} />
         <Route path="/sathish" element={<Sathish />} />
         <Route path="/shiva" element={<Shiva />} />
         <Route path="/siddiq" element={<Siddiq />} />
+        <Route path="/sindhu" element={<Sindhu />} />
         <Route path="/soundarya" element={<Soundarya />} />
         <Route path="/tamil" element={<Tamil />} />
         <Route path="/vicky" element={<Vicky />} />

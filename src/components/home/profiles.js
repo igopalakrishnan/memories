@@ -27,11 +27,32 @@ export const birthday = [
     path: "/ajith",
   },
   {
+    name: "Alen",
+    dob: "11 Jun 2002",
+    image: "alen.webp",
+    color: "rgb(222,218,207)",
+    path: "/alen",
+  },
+  {
     name: "Gokul",
     dob: "31 Oct 1998",
     image: "gokul.webp",
     color: "rgb(58,28,28)",
     path: "/gokul",
+  },
+  {
+    name: "Gopika",
+    dob: "08 Apr 2002",
+    image: "gopika.webp",
+    color: "rgb(106, 106, 106)",
+    path: "/gopika",
+  },
+  {
+    name: "Hari",
+    dob: "05 Mar 2000",
+    image: "hari.webp",
+    color: "rgb(86,73,96)",
+    path: "/hari",
   },
   {
     name: "Jaynath",
@@ -69,6 +90,13 @@ export const birthday = [
     path: "/kishore",
   },
   {
+    name: "Manikandan",
+    dob: "12 Dec 1992",
+    image: "mani.webp",
+    color: "rgb(201,164,90)",
+    path: "/mani",
+  },
+  {
     name: "Manoj",
     dob: "20 Aug 1997",
     image: "manoj.webp",
@@ -102,6 +130,13 @@ export const birthday = [
     image: "siddiq.webp",
     color: "rgb(149,52,68)",
     path: "/siddiq",
+  },
+  {
+    name: "Sindhu",
+    dob: "05 Dec 2001",
+    image: "sindhu.webp",
+    color: "gray",
+    path: "/sindhu",
   },
   {
     name: "Soundarya",
