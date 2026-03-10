@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { birthday, other, basePath } from "./profiles";
+import { birthday, other } from "./profiles";
 import "./home.css";
 
 const Home = () => {
