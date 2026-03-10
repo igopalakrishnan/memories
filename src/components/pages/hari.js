@@ -9,7 +9,7 @@ const Hari = () => {
   const [touchStartX, setTouchStartX] = useState(null);
 
   // Unified media list: images + videos
-  const media2025 = [
+  const media2026 = [
     // Videos
     {
       type: "video",
@@ -40,10 +40,10 @@ const Hari = () => {
 
   // Navigation
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : media2025.length - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : media2026.length - 1));
   };
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < media2025.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) => (prev < media2026.length - 1 ? prev + 1 : 0));
   };
 
   // Keyboard navigation
@@ -105,7 +105,7 @@ const Hari = () => {
         <h3 className="ms-3 mt-4 mb-3">05 March 2026</h3>
         {/* ✅ Gallery */}
         <div style={styles.gallery}>
-          {media2025.map((item, index) =>
+          {media2026.map((item, index) =>
             item.type === "image" ? (
               <img
                 key={index}
@@ -186,14 +186,14 @@ const Hari = () => {
               ◀
             </button>
 
-            {media2025[currentIndex].type === "image" ? (
+            {media2026[currentIndex].type === "image" ? (
               <img
-                src={media2025[currentIndex].src}
+                src={media2026[currentIndex].src}
                 alt="Enlarged"
                 style={styles.modalMedia}
                 onError={(e) => {
                   if (e.target.src.endsWith(".webp")) {
-                    e.target.src = media2025[currentIndex].src.replace(
+                    e.target.src = media2026[currentIndex].src.replace(
                       ".webp",
                       ".jpeg",
                     );
@@ -204,8 +204,8 @@ const Hari = () => {
               />
             ) : (
               <video
-                src={media2025[currentIndex].src}
-                poster={media2025[currentIndex].poster}
+                src={media2026[currentIndex].src}
+                poster={media2026[currentIndex].poster}
                 style={styles.modalMedia}
                 controls
                 autoPlay
