@@ -17,7 +17,7 @@ const Hari = () => {
       poster: `${process.env.PUBLIC_URL}/gallery/hari/2026/video1-thumb.webp`,
     },
     // Images
-    ...Array.from({ length: 58 }, (_, i) => ({
+    ...Array.from({ length: 90 }, (_, i) => ({
       type: "image",
       src: `${process.env.PUBLIC_URL}/gallery/hari/2026/img${i + 1}.webp`,
     })),
