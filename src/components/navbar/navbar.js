@@ -13,7 +13,7 @@ const AppNavbar = () => {
         </Link>
 
         {/* Centered HOME text */}
-        <Navbar.Brand href="/memories" className="mx-auto text-center">
+        <Navbar.Brand href="/" className="mx-auto text-center">
           HOME
         </Navbar.Brand>
       </Container>
