@@ -163,7 +163,7 @@ const Hari = () => {
         {/* Hidden audio element */}
         <audio
           ref={audioRef}
-          src={`${process.env.PUBLIC_URL}/gallery/audio/.mp3`}
+          src={`${process.env.PUBLIC_URL}/gallery/audio/hari.mp3`}
         />
 
         {/* Unified Modal */}
@@ -207,7 +207,7 @@ const Hari = () => {
                 src={media2026[currentIndex].src}
                 poster={media2026[currentIndex].poster}
                 style={styles.modalMedia}
-                controls
+                // controls
                 autoPlay
                 muted
                 preload="auto"
