@@ -14,7 +14,7 @@ const Hari = () => {
     {
       type: "video",
       src: `${process.env.PUBLIC_URL}/gallery/video/hari/2026.mp4`,
-      poster: `${process.env.PUBLIC_URL}/gallery/hari/2026/video1-thumb.webp`,
+      poster: `${process.env.PUBLIC_URL}/gallery/hari/2026/video-thumb.webp`,
     },
     // Images
     ...Array.from({ length: 90 }, (_, i) => ({
