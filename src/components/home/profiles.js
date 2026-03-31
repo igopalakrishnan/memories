@@ -111,6 +111,13 @@ export const birthday = [
     path: "/nithya",
   },
   {
+    name: "Sanjai",
+    dob: "28 Mar 20",
+    image: "sanjai.webp",
+    color: "rgb(175,142,121)",
+    path: "/sanjai",
+  },
+  {
     name: "Sathish",
     dob: "24 Jul 1997",
     image: "sathish.webp",

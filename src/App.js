@@ -37,6 +37,7 @@ import Gopika from "./components/pages/gopika";
 import ALen from "./components/pages/alen";
 import ScrollToTop from "./scrollToTop";
 import Mani from "./components/pages/mani";
+import Sanjai from "./components/pages/sanjai";
 
 // ✅ Wrapper so we can use useLocation
 function Layout() {
@@ -66,6 +67,7 @@ function Layout() {
         <Route path="/mani" element={<Mani />} />
         <Route path="/manoj" element={<Manoj />} />
         <Route path="/nithya" element={<Nithya />} />
+        <Route path="/sanjai" element={<Sanjai />} />
         <Route path="/sathish" element={<Sathish />} />
         <Route path="/shiva" element={<Shiva />} />
         <Route path="/siddiq" element={<Siddiq />} />
