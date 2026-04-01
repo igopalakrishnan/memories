@@ -22,7 +22,7 @@ const Sanjai = () => {
       poster: `${process.env.PUBLIC_URL}/gallery/sanjai/2026/video-thumb.webp`,
     },
     // Images
-    ...Array.from({ length: 26 }, (_, i) => ({
+    ...Array.from({ length: 49 }, (_, i) => ({
       type: "image",
       src: `${process.env.PUBLIC_URL}/gallery/sanjai/2026/img${i + 1}.webp`,
     })),
