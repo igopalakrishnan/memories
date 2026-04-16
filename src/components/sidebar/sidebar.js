@@ -19,11 +19,7 @@ const Sidebar = () => {
   const renderSection = (profiles, prefix) =>
     profiles.map((p, index) => (
       <div key={`${prefix}-${index}`} className="sidebar-item">
-        <div
-          className="icon-circle"
-          //   style={{ backgroundColor: p.color }}
-          onClick={(e) => handleClick(e, p)}
-        >
+        <NavLink to={p.path} className="icon-circle">
           <img
             src={`${process.env.PUBLIC_URL}/gallery/profiles/${p.image}`}
             alt={p.name}
@@ -32,7 +28,7 @@ const Sidebar = () => {
               e.target.src = `${process.env.PUBLIC_URL}/gallery/profiles/placeholder.webp`;
             }}
           />
-        </div>
+        </NavLink>
       </div>
     ));
 
